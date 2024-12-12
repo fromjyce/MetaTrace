@@ -1,0 +1,17 @@
+<div class="dashboard-container">
+    <h1>Metadata Dashboard</h1>
+    <table>
+      <tr>
+        <th>File Name</th>
+        <th>Device Info</th>
+        <th>Date</th>
+        <th>Location</th>
+      </tr>
+      <tr *ngFor="let data of metadata">
+        <td>{{ data.name }}</td>
+        <td>{{ data.device }}</td>
+        
+      </tr>
+    </table>
+  </div>
+  
