@@ -1,9 +1,0 @@
-<div class="upload-container">
-    <h1>Upload Your File</h1>
-    <form>
-      <input type="file" id="fileInput" (change)="onFileSelected($event)" />
-      <button type="button" (click)="uploadFile()" [disabled]="!selectedFile">Upload</button>
-    </form>
-    <p *ngIf="uploadMessage">{{ uploadMessage }}</p>
-  </div>
-  
