@@ -26,3 +26,12 @@
   --jonquil-two: #f6cc31ff;
   --emerald-two: #58c88cff;
 }
+
+.poppins {
+  font-family: var(--font-poppins);
+}
+
+.urbanist {
+  font-family: var(--font-urbanist);
+}
+
