@@ -159,7 +159,7 @@ export default function Home() {
       </div>
       <div className="bg-gray-100 p-6 rounded-lg shadow-lg flex flex-col items-center">
         <div className="w-16 h-16 mb-4">
-          <Image src="/path/to/security-icon.png" alt="Security Icon" width={64} height={64} />
+          <Image src="/landing_page/step4.png" alt="Security Icon" width={64} height={64} />
         </div>
         <h3 className="text-xl font-semibold text-gray-800">Ensure Security and Privacy</h3>
         <p className="mt-2 text-gray-600">Enjoy strong encryption and privacy for complete peace of mind.</p>
