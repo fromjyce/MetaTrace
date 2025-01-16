@@ -54,13 +54,31 @@ export default function Home() {
         </div>
       </div>
     </nav>
-    <section className="bg-blue-600 text-white text-center py-20">
-    <div className="container mx-auto">
+    <section className="bg-blue-600 text-white py-12">
+  <div className="container mx-auto flex flex-col md:flex-row items-center">
+    <div className="md:w-1/2 text-center md:text-left">
       <h1 className="text-4xl font-bold">Unlock the Power of Your Data with MetaTrace</h1>
-      <p className="mt-4 text-xl">MetaTrace makes metadata extraction effortless, uncovering actionable insights securely and with user-friendly precision.</p>
-      <a href="/signup" className="mt-6 inline-block bg-yellow-500 text-black py-2 px-6 rounded-full text-lg font-semibold">Start Analyzing Now!</a>
+      <p className="mt-4 text-xl">
+        MetaTrace makes metadata extraction effortless, uncovering actionable insights securely and with user-friendly precision.
+      </p>
+      <a
+        href="/signup"
+        className="mt-6 inline-block bg-yellow-500 text-black py-2 px-6 rounded-full text-lg font-semibold"
+      >
+        Start Analyzing Now!
+      </a>
     </div>
-  </section>
+    <div className="mt-10 md:mt-0 md:w-1/2 flex justify-center">
+      <Image
+        src="/landing_page/hero-section.png" // Replace with your image path
+        alt="MetaTrace Insights"
+        width={300} // Set the desired width
+        height={300} // Set the desired height
+        className="rounded-lg" // Optional Tailwind styling
+      />
+    </div>
+  </div>
+</section>
   <section id="features" className="bg-gray-100 py-16">
   <div className="container mx-auto text-center">
     <h2 className="text-4xl font-bold mb-4">MetaTrace's Core Offerings</h2>
@@ -166,6 +184,28 @@ export default function Home() {
         <p className="mt-2 text-gray-600">Enjoy strong encryption and privacy for complete peace of mind.</p>
       </div>
     </div>
+  </div>
+</section>
+<section className="bg-gray-200 py-16 text-center">
+  <div className="container mx-auto flex flex-col items-center">
+    <div className="mb-6">
+      <Image
+        src="/metatrace.png" // Replace with your icon path
+        alt="Get Started Icon"
+        width={64}
+        height={64}
+      />
+    </div>
+    <h2 className="text-3xl font-bold text-gray-800 mb-4">Get Started</h2>
+    <p className="text-lg text-gray-600 mb-6">
+      Begin your journey to uncover actionable insights effortlessly.
+    </p>
+    <a
+      href="/signup"
+      className="bg-blue-600 text-white py-2 px-6 rounded-full text-lg font-semibold hover:bg-blue-700"
+    >
+      Get Started Now
+    </a>
   </div>
 </section>
 <Footer />
