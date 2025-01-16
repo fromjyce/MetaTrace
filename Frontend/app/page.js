@@ -85,7 +85,7 @@ export default function Home() {
       <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center">
         <div className="mb-4">
           <img
-            src="/icons/visual-insights-icon.svg"
+            src="/landing_page/feature2.png"
             alt="Visual Insights Icon"
             className="w-12 h-12"
           />
