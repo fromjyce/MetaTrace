@@ -138,7 +138,7 @@ export default function Home() {
     <div className="mt-10 grid grid-cols-4 gap-8">
       <div className="bg-gray-100 p-6 rounded-lg shadow-lg flex flex-col items-center">
         <div className="w-16 h-16 mb-4">
-          <Image src="/path/to/upload-icon.png" alt="Upload Icon" width={64} height={64} />
+          <Image src="/landing_page/step1.png" alt="Upload Icon" width={64} height={64} />
         </div>
         <h3 className="text-xl font-semibold text-gray-800">Upload Your File</h3>
         <p className="mt-2 text-gray-600">Upload an image, video, or PDF. MetaTrace supports multiple formats for flexibility.</p>
