@@ -8,52 +8,59 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState("");
 
   return (
-    <div>
-    <nav className="bg-gray-900 text-white p-2">
-      <div className="container mx-auto flex justify-between items-center">
-        <div className="flex items-center space-x-2">
-          <Image
-            src={logo}
-            alt="MetaTrace Logo"
-            width={40}
-            height={40}
-          />
-          <div className="font-bold text-xl">MetaTrace</div>
-        </div>
-        <ul className="flex space-x-6 mx-auto">
-          <li>
-            <a
-              href="#features"
-              className={`hover:text-gray-400 ${
-                activeSection === "features" ? "text-blue-400" : ""
-              }`}
-              onClick={() => setActiveSection("features")}
-            >
-              Features
-            </a>
-          </li>
-          <li>
-            <a
-              href="#steps"
-              className={`hover:text-gray-400 ${
-                activeSection === "steps" ? "text-blue-400" : ""
-              }`}
-              onClick={() => setActiveSection("steps")}
-            >
-              Steps
-            </a>
-          </li>
-        </ul>
-        <div className="flex space-x-4">
-          <a href="/login" className="hover:text-gray-400">
-            Sign In
-          </a>
-          <a href="/signup" className="hover:text-gray-400">
-            Sign Up
-          </a>
-        </div>
-      </div>
-    </nav>
+    <div className="bg-[#000000]">
+      <div className="mb-3 bg-[#000000]"></div>
+    <nav className="bg-[#f7f7f7ff] text-black p-2 rounded-xl shadow-lg mx-4">
+  <div className="container mx-auto flex justify-between items-center">
+    {/* Logo Section */}
+    <div className="flex items-center space-x-2">
+      <Image src={logo} alt="MetaTrace Logo" width={40} height={40} />
+      <div className="font-bold text-xl">MetaTrace</div>
+    </div>
+    
+    {/* Middle Buttons Section */}
+    <ul className="flex space-x-6 mx-auto bg-gray-200 rounded-lg p-2">
+      <li>
+        <a
+          href="#features"
+          className={`hover:bg-blue-400 hover:text-white px-4 py-2 rounded-lg ${
+            activeSection === "features" ? "bg-blue-400 text-white" : "bg-gray-100"
+          }`}
+          onClick={() => setActiveSection("features")}
+        >
+          Features
+        </a>
+      </li>
+      <li>
+        <a
+          href="#steps"
+          className={`hover:bg-blue-400 hover:text-white px-4 py-2 rounded-lg ${
+            activeSection === "steps" ? "bg-blue-400 text-white" : "bg-gray-100"
+          }`}
+          onClick={() => setActiveSection("steps")}
+        >
+          Steps
+        </a>
+      </li>
+    </ul>
+    
+    {/* Right-Side Buttons Section */}
+    <div className="flex space-x-4">
+      <a
+        href="/login"
+        className="bg-blue-400 text-white px-4 py-2 rounded-lg hover:bg-blue-500"
+      >
+        Sign In
+      </a>
+      <a
+        href="/signup"
+        className="bg-blue-400 text-white px-4 py-2 rounded-lg hover:bg-blue-500"
+      >
+        Sign Up
+      </a>
+    </div>
+  </div>
+</nav>
     <section className="bg-blue-600 text-white py-12">
   <div className="container mx-auto flex flex-col md:flex-row items-center">
     <div className="md:w-1/2 text-center md:text-left">
