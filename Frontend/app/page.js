@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import logo from "../public/metatrace.png";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState("");
@@ -164,16 +165,10 @@ export default function Home() {
         <h3 className="text-xl font-semibold text-gray-800">Ensure Security and Privacy</h3>
         <p className="mt-2 text-gray-600">Enjoy strong encryption and privacy for complete peace of mind.</p>
       </div>
-      
     </div>
   </div>
 </section>
-
-  <footer className="bg-gray-900 text-white py-2">
-    <div className="container mx-auto text-center">
-      <p className="text-sm">Developed with ❤️ by <strong>Team MetaTrace</strong>.</p>
-    </div>
-  </footer>
+<Footer />
   </div>
   );
 }
