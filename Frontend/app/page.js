@@ -100,7 +100,7 @@ export default function Home() {
       <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center">
         <div className="mb-4">
           <img
-            src="/icons/security-icon.svg"
+            src="/landing_page/feature3.png"
             alt="Security Icon"
             className="w-12 h-12"
           />
