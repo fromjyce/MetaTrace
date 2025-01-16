@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --white: #ffffffff;
+  --eerie-black-one: #1a1a1aff;
+  --coquelicot: #fc4b22ff;
+  --jonquil-one: #ffd028ff;
+  --silver: #bcbcbcff;
+  --davys-gray: #5e5e5eff;
+  --medium-slate-blue: #8a61f4ff;
+  --emerald-one: #51c68aff;
+  --salmon: #f38876ff;
+  --dark-goldenrod: #9f7b0dff;
+  --coquelicot: #f74b25ff;
+  --taupe-gray: #9a999aff;
+  --dark-goldenrod: #a38936ff;
+  --eerie-black: #1b1b1cff;
+  --gold: #fad22bff;
+  --seasalt: #f7f7f7ff;
+  --eerie-black-two: #1c1c1cff;
+  --cinnabar: #ef4d31ff;
+  --jonquil-two: #f6cc31ff;
+  --emerald-two: #58c88cff;
+}
