@@ -115,7 +115,7 @@ export default function Home() {
       <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center">
         <div className="mb-4">
           <img
-            src="/icons/integration-icon.svg"
+            src="/landing_page/feature4.png"
             alt="Integration Icon"
             className="w-12 h-12"
           />
