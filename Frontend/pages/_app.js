@@ -20,7 +20,7 @@ export const metadata = {
 
 function MyApp({ Component, pageProps }) {
     return (
-        <div className={`${urbanist_init.variable} ${poppins_init.variable} antialiased`}>
+        <div className={`${questrial_init.variable} ${poppins_init.variable} antialiased`}>
           <main>
             <Component {...pageProps} />
           </main>
