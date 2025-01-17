@@ -12,7 +12,7 @@ const MetadataModal = ({ isOpen, fileMetadata, onClose }) => {
         >
           <X className="w-5 h-5" />
         </button>
-        <h3 className="text-lg text-[#1a1a1aff] text-center epilogue font-bold mb-4">
+        <h3 className="text-lg text-[#1a1a1aff] text-center epilogue font-bold mb-2 mt-4">
           Metadata of <span className="text-[#f74b25ff]">{fileMetadata?.name || 'N/A'}</span>
         </h3>
         <ul className="list-none text-sm poppins mb-8">
