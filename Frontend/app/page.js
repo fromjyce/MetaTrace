@@ -8,88 +8,83 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState("");
 
   return (
-    <div className="bg-[#000000]">
-      <div className="mb-3 bg-[#000000]"></div>
-    <nav className="bg-[#f7f7f7ff] text-black p-2 rounded-xl shadow-lg mx-4">
+    <div className="bg-[#f7f7f7ff]">
+      <div className="bg-[#f7f7f7ff] w-full h-2"></div>
+    <nav className="bg-[#f74b25ff] text-black p-2 rounded-xl shadow-sm mx-4 mb-2">
   <div className="container mx-auto flex justify-between items-center">
-    {/* Logo Section */}
     <div className="flex items-center space-x-2">
       <Image src={logo} alt="MetaTrace Logo" width={40} height={40} />
-      <div className="font-bold text-xl">MetaTrace</div>
+      <div className="font-black text-xl questrial text-[#1a1a1aff]">MetaTrace</div>
     </div>
-    
-    {/* Middle Buttons Section */}
-    <ul className="flex space-x-6 mx-auto bg-gray-200 rounded-lg p-2">
-      <li>
-        <a
-          href="#features"
-          className={`hover:bg-blue-400 hover:text-white px-4 py-2 rounded-lg ${
-            activeSection === "features" ? "bg-blue-400 text-white" : "bg-gray-100"
-          }`}
-          onClick={() => setActiveSection("features")}
-        >
-          Features
-        </a>
-      </li>
-      <li>
-        <a
-          href="#steps"
-          className={`hover:bg-blue-400 hover:text-white px-4 py-2 rounded-lg ${
-            activeSection === "steps" ? "bg-blue-400 text-white" : "bg-gray-100"
-          }`}
-          onClick={() => setActiveSection("steps")}
-        >
-          Steps
-        </a>
-      </li>
-    </ul>
-    
-    {/* Right-Side Buttons Section */}
-    <div className="flex space-x-4">
+    <ul className="flex space-x-6 mx-auto poppins font-bold text-[#1a1a1aff]">
+  <li>
+    <a
+      href="#features"
+      className={`hover:text-[#fad22bff] ${
+        activeSection === "features" ? "text-[#f6cc31ff]" : ""
+      }`}
+      onClick={() => setActiveSection("features")}
+    >
+      Features
+    </a>
+  </li>
+  <li>
+    <a
+      href="#steps"
+      className={`hover:text-[#fad22bff] ${
+        activeSection === "steps" ? "text-[#f6cc31ff]" : ""
+      }`}
+      onClick={() => setActiveSection("steps")}
+    >
+      Steps
+    </a>
+  </li>
+</ul>
+    <div className="flex space-x-4 poppins font-semibold">
       <a
         href="/login"
-        className="bg-blue-400 text-white px-4 py-2 rounded-lg hover:bg-blue-500"
+        className="bg-[#1a1a1aff] text-[#f7f7ff] px-4 py-2 rounded-lg hover:bg-[#1b1b1cff]"
       >
         Sign In
       </a>
       <a
         href="/signup"
-        className="bg-blue-400 text-white px-4 py-2 rounded-lg hover:bg-blue-500"
+        className="bg-[#1a1a1aff] text-[#f7f7ff] px-4 py-2 rounded-lg hover:bg-[#1b1b1cff]"
       >
         Sign Up
       </a>
     </div>
   </div>
 </nav>
-    <section className="bg-blue-600 text-white py-12">
+  <section className="bg-[#f7f7f7ff] text-[#1a1a1aff] py-28">
   <div className="container mx-auto flex flex-col md:flex-row items-center">
     <div className="md:w-1/2 text-center md:text-left">
-      <h1 className="text-4xl font-bold">Unlock the Power of Your Data with MetaTrace</h1>
-      <p className="mt-4 text-xl">
+      <h1 className="text-4xl font-bold questrial">Unlock the Power of Your Data with <strong className="text-[#ef4d31ff]">MetaTrace</strong></h1>
+      <p className="mt-4 text-xl poppins">
         MetaTrace makes metadata extraction effortless, uncovering actionable insights securely and with user-friendly precision.
       </p>
       <a
         href="/signup"
-        className="mt-6 inline-block bg-yellow-500 text-black py-2 px-6 rounded-full text-lg font-semibold"
+        className="mt-6 inline-block bg-[#ffd028ff] text-[#1a1a1aff] hover:bg-[#e6bb24] py-2 px-6 rounded-full poppins text-lg font-semibold"
       >
         Start Analyzing Now!
       </a>
     </div>
     <div className="mt-10 md:mt-0 md:w-1/2 flex justify-center">
       <Image
-        src="/landing_page/hero-section.png" // Replace with your image path
+        src="/landing_page/hero-section.png"
         alt="MetaTrace Insights"
-        width={300} // Set the desired width
-        height={300} // Set the desired height
-        className="rounded-lg" // Optional Tailwind styling
+        width={300}
+        height={300}
+        className="rounded-lg"
       />
     </div>
   </div>
 </section>
-  <section id="features" className="bg-gray-100 py-16">
+  <section id="features" className="bg-[#dfdfdf] py-14">
   <div className="container mx-auto text-center">
-    <h2 className="text-4xl font-bold mb-4">MetaTrace's Core Offerings</h2>
-    <p className="text-lg text-gray-600 mb-12">
+    <h2 className="text-4xl font-bold mb-4 questrial text-[#1b1b1cff]"><strong className="text-[#ef4d31ff]">MetaTrace's</strong> Core Offerings</h2>
+    <p className="text-lg text-[#5e5e5eff] mb-12 poppins">
     Transform hidden file details into stunning visuals and actionable insights with ease.
     </p>
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -101,10 +96,10 @@ export default function Home() {
             className="w-12 h-12"
           />
         </div>
-        <h3 className="text-xl font-semibold mb-2 text-gray-800">
+        <h3 className="text-xl font-semibold mb-2 text-[#1c1c1cff] #1a1a1aff questrial">
           Comprehensive Metadata Extraction
         </h3>
-        <p className="text-gray-600 text-sm">
+        <p className="text-[#5e5e5eff] text-sm poppins">
         Get detailed insights from images, videos, and documents effortlessly.
         </p>
       </div>
@@ -116,10 +111,10 @@ export default function Home() {
             className="w-12 h-12"
           />
         </div>
-        <h3 className="text-xl font-semibold mb-2 text-gray-800">
+        <h3 className="text-xl font-semibold mb-2 text-[#1c1c1cff] questrial">
           Visualized Insights
         </h3>
-        <p className="text-gray-600 text-sm">
+        <p className="text-[#5e5e5eff] text-sm poppins">
         Turn data into sleek, presentation-ready charts and graphs.
         </p>
       </div>
@@ -131,10 +126,10 @@ export default function Home() {
             className="w-12 h-12"
           />
         </div>
-        <h3 className="text-xl font-semibold mb-2 text-gray-800">
+        <h3 className="text-xl font-semibold mb-2 text-[#1c1c1cff] questrial">
           Security & Privacy First
         </h3>
-        <p className="text-gray-600 text-sm">
+        <p className="text-[#5e5e5eff] text-sm poppins">
         Your files are protected with robust encryption and strict privacy measures.
         </p>
       </div>
@@ -146,70 +141,69 @@ export default function Home() {
             className="w-12 h-12"
           />
         </div>
-        <h3 className="text-xl font-semibold mb-2 text-gray-800">
+        <h3 className="text-xl font-semibold mb-2  text-[#1c1c1cff] questrial">
           Seamless Integration
         </h3>
-        <p className="text-gray-600 text-sm">
+        <p className="text-[#5e5e5eff] text-sm poppins">
         Work seamlessly across various file formats for a smooth experience.
         </p>
       </div>
     </div>
   </div>
 </section>
-<section id="steps" className="bg-white py-16">
+<section id="steps" className="bg-[#f7f7f7ff] py-14">
   <div className="container mx-auto text-center">
-    <h2 className="text-3xl font-bold text-gray-800">Effortless Insights with MetaTrace</h2>
-    <p className="mt-4 text-lg text-gray-500">Begin your MetaTrace experience in no time.</p>
-    
+    <h2 className="text-4xl font-bold mb-4 questrial text-[#1b1b1cff]">Effortless Insights with <strong className="text-[#ef4d31ff]">MetaTrace</strong></h2>
+    <p className="text-lg text-[#5e5e5eff] mb-12 poppins">Begin your MetaTrace experience in no time.</p>
     <div className="mt-10 grid grid-cols-4 gap-8">
-      <div className="bg-gray-100 p-6 rounded-lg shadow-lg flex flex-col items-center">
+      <div className="bg-[#ebebeb] p-6 rounded-lg shadow-lg flex flex-col items-center">
         <div className="w-16 h-16 mb-4">
           <Image src="/landing_page/step1.png" alt="Upload Icon" width={64} height={64} />
         </div>
-        <h3 className="text-xl font-semibold text-gray-800">Upload Your File</h3>
-        <p className="mt-2 text-gray-600">Upload an image, video, or PDF. MetaTrace supports multiple formats for flexibility.</p>
+        <h3 className="text-xl font-semibold mb-2 text-[#1c1c1cff] questrial">Upload Your File</h3>
+        <p className="text-[#5e5e5eff] text-sm poppins">Upload an image, video, or PDF. MetaTrace supports multiple formats for flexibility.</p>
       </div>
-      <div className="bg-gray-100 p-6 rounded-lg shadow-lg flex flex-col items-center">
+      <div className="bg-[#ebebeb] p-6 rounded-lg shadow-lg flex flex-col items-center">
         <div className="w-16 h-16 mb-4">
           <Image src="/landing_page/step2.png" alt="Analyze Icon" width={64} height={64} />
         </div>
-        <h3 className="text-xl font-semibold text-gray-800">Analyze the Metadata</h3>
-        <p className="mt-2 text-gray-600">Extract key details like size, creation date, and resolution instantly.</p>
+        <h3 className="text-xl font-semibold mb-2 text-[#1c1c1cff] questrial">Analyze the Metadata</h3>
+        <p className="text-[#5e5e5eff] text-sm poppins">Extract key details like size, creation date, and resolution instantly.</p>
       </div>
-      <div className="bg-gray-100 p-6 rounded-lg shadow-lg flex flex-col items-center">
+      <div className="bg-[#ebebeb] p-6 rounded-lg shadow-lg flex flex-col items-center">
         <div className="w-16 h-16 mb-4">
           <Image src="/landing_page/step3.png" alt="Visualize Icon" width={64} height={64} />
         </div>
-        <h3 className="text-xl font-semibold text-gray-800">Visualize Key Insights</h3>
-        <p className="mt-2 text-gray-600">View trends and correlations through clear, impactful visualizations.</p>
+        <h3 className="text-xl font-semibold mb-2 text-[#1c1c1cff] questrial">Visualize Key Insights</h3>
+        <p className="text-[#5e5e5eff] text-sm poppins">View trends and correlations through clear, impactful visualizations.</p>
       </div>
-      <div className="bg-gray-100 p-6 rounded-lg shadow-lg flex flex-col items-center">
+      <div className="bg-[#ebebeb] p-6 rounded-lg shadow-lg flex flex-col items-center">
         <div className="w-16 h-16 mb-4">
           <Image src="/landing_page/step4.png" alt="Security Icon" width={64} height={64} />
         </div>
-        <h3 className="text-xl font-semibold text-gray-800">Ensure Security and Privacy</h3>
-        <p className="mt-2 text-gray-600">Enjoy strong encryption and privacy for complete peace of mind.</p>
+        <h3 className="text-xl font-semibold mb-2 text-[#1c1c1cff] questrial">Ensure Security and Privacy</h3>
+        <p className="text-[#5e5e5eff] text-sm poppins">Enjoy strong encryption and privacy for complete peace of mind.</p>
       </div>
     </div>
   </div>
 </section>
-<section className="bg-gray-200 py-16 text-center">
+<section className="bg-[#dfdfdf] py-14 text-center">
   <div className="container mx-auto flex flex-col items-center">
-    <div className="mb-6">
+    <div className="mb-6 rounded-lg shadow-lg">
       <Image
-        src="/metatrace.png" // Replace with your icon path
+        src="/metatrace.png"
         alt="Get Started Icon"
         width={64}
         height={64}
       />
     </div>
-    <h2 className="text-3xl font-bold text-gray-800 mb-4">Get Started</h2>
-    <p className="text-lg text-gray-600 mb-6">
+    <h2 className="text-4xl font-bold mb-4 questrial text-[#ef4d31ff]">Get Started</h2>
+    <p className="text-lg text-[#5e5e5eff] poppins mb-6">
       Begin your journey to uncover actionable insights effortlessly.
     </p>
     <a
       href="/signup"
-      className="bg-blue-600 text-white py-2 px-6 rounded-full text-lg font-semibold hover:bg-blue-700"
+      className="bg-[#ef4d31ff] text-white py-2 px-6 rounded-full text-lg font-semibold hover:bg-[#bf3e27] poppins"
     >
       Get Started Now
     </a>
