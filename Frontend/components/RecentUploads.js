@@ -36,21 +36,21 @@ const RecentUploads = ({ uploads, onMetadataClick, onDelete, onDownload }) => {
             </div>
             <div className="flex items-center space-x-4 justify-end w-1/3">
               <button
-                className="p-2 bg-[#4CBB17] text-white rounded hover:bg-green-600"
+                className="p-2 bg-[#4CBB17] text-white rounded hover:bg-[#2E8B57]"
                 aria-label="View Metadata"
                 onClick={() => onMetadataClick(upload)}
               >
                 <Info className="w-5 h-5" />
               </button>
               <button
-                className="p-2 bg-red-500 text-white rounded hover:bg-red-600"
+                className="p-2 bg-[#FF4433] text-white rounded hover:bg-[#D22B2B]"
                 aria-label="Delete File"
                 onClick={() => onDelete(upload)}
               >
                 <Trash2 className="w-5 h-5" />
               </button>
               <button
-                className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                className="p-2 bg-[#4169E1] text-white rounded hover:bg-[#0F52BA]"
                 aria-label="Download File"
                 onClick={() => onDownload(upload)}
               >
