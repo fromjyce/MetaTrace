@@ -14,7 +14,7 @@ const Navbar = () => {
         <div className="container mx-auto flex justify-between items-center">
           <div className="flex items-center space-x-2">
             <Image src="/metatrace.png" alt="MetaTrace Logo" width={40} height={40} />
-                <Link href="/" className="font-black text-xl questrial hover:text-[#f6cc31ff]">
+                <Link href="/" className="font-black text-xl epilogue hover:text-[#f6cc31ff]">
               MetaTrace
             </Link>
           </div>
