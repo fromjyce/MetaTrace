@@ -71,7 +71,7 @@ const Signup = () => {
             />
           </div>
           <div className="w-1/2 h-full flex flex-col justify-center pl-8 pt-12 pb-12 pr-8">
-            <h2 className="text-2xl font-black mb-2 questrial">Join <strong className='text-[#ef4d31ff]'>MetaTrace</strong> Today</h2>
+            <h2 className="text-2xl font-black mb-2 epilogue">Join <strong className='text-[#ef4d31ff]'>MetaTrace</strong> Today</h2>
             <p className="text-[#5e5e5eff] mb-5 poppins">Unlock the power of metadata visualization and insights.</p>
             <form onSubmit={handleSubmit} className='poppins'>
               <div className="mb-4">
@@ -148,7 +148,7 @@ const Signup = () => {
                 Sign Up
               </button>
             </form>
-            <p className="text-center text-[#5e5e5eff] mt-4 questrial font-medium">
+            <p className="text-center text-[#5e5e5eff] mt-4 epilogue font-medium">
               Already have an account?{' '}
               <a href="/login" className="text-[#f74b25ff] hover:underline hover:text-[#bf3e27] font-bold">
                 Log in
