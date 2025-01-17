@@ -1,5 +1,21 @@
-import { Info, Trash2, Download, ArrowRight } from 'lucide-react';
+import { Info, Trash2, Download, ArrowRight, FileImage, FileText, FileVideo, FileMusic, FileArchive, File } from 'lucide-react';
 import Link from 'next/link';
+
+const getFileIcon = (fileType) => {
+    if (fileType.startsWith('image')) {
+      return <FileImage className="w-7 h-7 object-cover text-[#f74b25ff]" />;
+    } else if (fileType === 'application/pdf' || fileType.includes('word') || fileType === 'text/plain' || fileType.includes('excel')) {
+      return <FileText className="w-7 h-7 object-cover text-[#f74b25ff]" />;
+    } else if (fileType.startsWith('video')) {
+      return <FileVideo className="w-7 h-7 object-cover text-[#f74b25ff]" />;
+    } else if (fileType.startsWith('audio')) {
+      return <FileMusic className="w-7 h-7 object-cover text-[#f74b25ff]" />;
+    } else if (fileType === 'application/zip' || fileType.includes('tar')) {
+      return <FileArchive className="w-7 h-7 object-cover text-[#f74b25ff]" />;
+    } else {
+      return <File className="w-7 h-7 object-cover text-[#f74b25ff]" />;
+    }
+  };
 
 const RecentUploads = ({ uploads, onMetadataClick, onDelete, onDownload }) => {
   return (
@@ -22,11 +38,7 @@ const RecentUploads = ({ uploads, onMetadataClick, onDelete, onDownload }) => {
             className="flex items-center justify-between p-4 bg-[#eceaea] shadow-lg rounded w-full"
           >
             <div className="flex items-center space-x-4 w-1/3">
-              <img
-                src="/placeholder-logo.png"
-                alt="File Logo"
-                className="w-8 h-8 object-cover"
-              />
+            {getFileIcon(upload.metadata.type)}
               <h4 className="font-semibold truncate epilogue">{upload.name}</h4>
             </div>
             <div className="text-center w-1/3">
