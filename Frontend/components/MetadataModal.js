@@ -39,13 +39,13 @@ const MetadataModal = ({ isOpen, fileMetadata, onClose }) => {
           )}
         </ul>
         <div className="flex justify-end space-x-4 mt-4">
-          <button className="p-2 bg-[#4CBB17] text-white rounded hover:bg-green-600" aria-label="Copy File">
+          <button className="p-2 bg-[#4CBB17] text-white rounded hover:bg-[#2E8B57]" aria-label="Copy File">
             <Copy className="w-5 h-5" />
           </button>
-          <button className="p-2 bg-red-500 text-white rounded hover:bg-red-600" aria-label="Delete File">
+            <button className="p-2 bg-[#FF4433] text-white rounded hover:bg-[#D22B2B]" aria-label="Delete File">
             <Trash2 className="w-5 h-5" />
           </button>
-          <button className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600" aria-label="Download File">
+          <button className="p-2 bg-[#4169E1] text-white rounded hover:bg-[#0F52BA]" aria-label="Download File">
             <Download className="w-5 h-5" />
           </button>
         </div>
