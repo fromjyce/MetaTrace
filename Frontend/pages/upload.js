@@ -25,33 +25,75 @@ const Upload = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedFileMetadata, setSelectedFileMetadata] = useState(null);
 
+  const allowedFileTypes = [
+    // Images
+    'image/jpeg',
+    'image/jpg',
+    'image/png',
+    'image/gif',
+    'image/svg+xml',
+    // Documents
+    'application/pdf',
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'text/plain',
+    'application/vnd.ms-excel',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    'text/csv',
+    // Videos
+    'video/mp4',
+    'video/webm',
+    'video/quicktime',
+    // Audio
+    'audio/mpeg',
+    'audio/wav',
+    'audio/ogg',
+    // Compressed Files
+    'application/zip',
+    'application/x-tar',
+    'application/gzip',
+  ];
+  
+  const validateFileType = (file) => {
+    return allowedFileTypes.includes(file.type);
+  };
+  
   const handleFileChange = (e) => {
     const uploadedFile = e.target.files[0];
     if (uploadedFile) {
+      if (!validateFileType(uploadedFile)) {
+        alert('Unsupported file type. Please upload a valid file.');
+        return;
+      }
       const newFile = {
         name: uploadedFile.name,
         uploadDate: new Date().toLocaleDateString(),
-        metadata: { size: 'N/A', type: uploadedFile.type },
+        metadata: { size: (uploadedFile.size / 1024 / 1024).toFixed(2) + ' MB', type: uploadedFile.type },
       };
       setRecentUploads([newFile, ...recentUploads]);
       setFile(uploadedFile);
     }
   };
-
+  
   const handleFileDrop = (e) => {
     e.preventDefault();
     setFileEnter(false);
     if (e.dataTransfer.files.length > 0) {
       const droppedFile = e.dataTransfer.files[0];
+      if (!validateFileType(droppedFile)) {
+        alert('Unsupported file type. Please upload a valid file.');
+        return;
+      }
       const newFile = {
         name: droppedFile.name,
         uploadDate: new Date().toLocaleDateString(),
-        metadata: { size: 'N/A', type: droppedFile.type },
+        metadata: { size: (droppedFile.size / 1024 / 1024).toFixed(2) + ' MB', type: droppedFile.type },
       };
       setRecentUploads([newFile, ...recentUploads]);
       setFile(droppedFile);
     }
   };
+  
 
   const handleMetadataClick = (upload) => {
     setSelectedFileMetadata(upload);
