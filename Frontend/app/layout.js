@@ -1,5 +1,5 @@
 import "./globals.css";
-import {Poppins, Questrial} from "next/font/google";
+import {Poppins, Epilogue} from "next/font/google";
 
 const poppins_init = Poppins({
   subsets: ['latin'],
@@ -7,10 +7,10 @@ const poppins_init = Poppins({
   variable: '--font-poppins',
 });
 
-const questrial_init = Questrial({
+const epilogue_init = Epilogue({
   subsets: ['latin'],
-  weight: ['400'],
-  variable: '--font-questrial',
+  weight: ['100','200','300','400','500','600','700','800','900'],
+  variable: '--font-epilogue',
 });
 
 export const metadata = {
@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${questrial_init.variable} ${poppins_init.variable} antialiased`}
+        className={`${epilogue_init.variable} ${poppins_init.variable} antialiased`}
       >
         {children}
       </body>
