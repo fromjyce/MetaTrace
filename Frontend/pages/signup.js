@@ -50,12 +50,12 @@ const Signup = () => {
       <Head>
         <title>MetaTrace | Sign Up</title>
       </Head>
-      <div className="flex justify-center items-center min-h-screen bg-gray-100">
-        <div className="w-full max-w-4xl bg-white rounded-lg shadow-lg flex h-[650px]">
+      <div className="flex justify-center items-center min-h-screen bg-[#dfdfdf]">
+        <div className="w-full max-w-4xl bg-[#f7f7f7ff] rounded-lg shadow-lg flex h-[650px]">
           <div className="w-1/2 h-full relative flex justify-center items-center">
-          <Link href="/">
+          <Link href="/" className='poppins font-semibold text-[#1c1c1cff]'>
             <button
-              className="absolute top-4 right-4 bg-[rgba(192,192,192,0.8)] text-black py-2 px-4 rounded-lg hover:bg-[rgba(192,192,192,1)] flex items-center space-x-2"
+              className="absolute top-4 right-4 bg-[rgba(192,192,192,0.8)] py-2 px-4 rounded-lg hover:bg-[rgba(192,192,192,1)] flex items-center space-x-2"
             >
               <span>MetaTrace</span>
               <ArrowRight size={18} />
@@ -71,11 +71,11 @@ const Signup = () => {
             />
           </div>
           <div className="w-1/2 h-full flex flex-col justify-center pl-8 pt-12 pb-12 pr-8">
-            <h2 className="text-2xl font-bold mb-2">Join MetaTrace Today</h2>
-            <p className="text-gray-600 mb-6">Unlock the power of metadata visualization and insights.</p>
-            <form onSubmit={handleSubmit}>
+            <h2 className="text-2xl font-black mb-2 questrial">Join <strong className='text-[#ef4d31ff]'>MetaTrace</strong> Today</h2>
+            <p className="text-[#5e5e5eff] mb-5 poppins">Unlock the power of metadata visualization and insights.</p>
+            <form onSubmit={handleSubmit} className='poppins'>
               <div className="mb-4">
-                <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
+                <label htmlFor="name" className="block text-[#5e5e5eff] font-bold mb-2">
                   Name
                 </label>
                 <input
@@ -84,12 +84,12 @@ const Signup = () => {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Enter your name"
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ef4d31ff]"
                 />
                 {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
               </div>
               <div className="mb-4">
-                <label htmlFor="email" className="block text-gray-700 font-bold mb-2">
+                <label htmlFor="email" className="block text-[#5e5e5eff] font-bold mb-2">
                   Email
                 </label>
                 <input
@@ -98,12 +98,12 @@ const Signup = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email"
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ef4d31ff]"
                 />
                 {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
               </div>
               <div className="mb-4">
-                <label htmlFor="password" className="block text-gray-700 font-bold mb-2">
+                <label htmlFor="password" className="block text-[#5e5e5eff] font-bold mb-2">
                   Password
                 </label>
                 <input
@@ -112,12 +112,12 @@ const Signup = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter your password"
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ef4d31ff]"
                 />
                 {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
               </div>
               <div className="mb-4">
-                <label htmlFor="confirmPassword" className="block text-gray-700 font-bold mb-2">
+                <label htmlFor="confirmPassword" className="block text-[#5e5e5eff] font-bold mb-2">
                   Confirm Password
                 </label>
                 <input
@@ -126,7 +126,7 @@ const Signup = () => {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Confirm your password"
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ef4d31ff]"
                 />
                 {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword}</p>}
               </div>
@@ -134,23 +134,23 @@ const Signup = () => {
                 <label className="inline-flex items-center">
                   <input
                     type="checkbox"
-                    className="form-checkbox text-blue-500 focus:ring-2 focus:ring-blue-500"
+                    className="form-checkbox text-[#ef4d31ff] focus:ring-2 focus:ring-[#ef4d31ff]"
                   />
-                  <span className="ml-2 text-gray-700">
-                    I agree to the terms and conditions
+                  <span className="ml-2 text-[#5e5e5eff]">
+                    I agree to the <span className='text-[#f74b25ff] underline hover:text-[#bf3e27]'>terms and conditions</span>
                   </span>
                 </label>
               </div>
               <button
                 type="submit"
-                className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
+                className="w-full bg-[#f74b25ff] text-white py-2 px-4 rounded-lg hover:bg-[#bf3e27] font-semibold"
               >
                 Sign Up
               </button>
             </form>
-            <p className="text-center text-gray-600 mt-4">
+            <p className="text-center text-[#5e5e5eff] mt-4 questrial font-medium">
               Already have an account?{' '}
-              <a href="/login" className="text-blue-500 hover:underline">
+              <a href="/login" className="text-[#f74b25ff] hover:underline hover:text-[#bf3e27] font-bold">
                 Log in
               </a>
             </p>
