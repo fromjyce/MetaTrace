@@ -10,7 +10,7 @@ const Navbar = () => {
   return (
     <>
       <div className="bg-[#f7f7f7ff] w-full h-2"></div>
-      <nav className="bg-[#f74b25ff] text-[#001215] p-2 rounded-xl shadow-sm mx-4 mb-2">
+      <nav className="bg-[#f74b25ff] text-[#001215] p-2 rounded-xl shadow-sm mx-4">
         <div className="container mx-auto flex justify-between items-center">
           <div className="flex items-center space-x-2">
             <Image src="/metatrace.png" alt="MetaTrace Logo" width={40} height={40} />
