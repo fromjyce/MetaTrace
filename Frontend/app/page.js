@@ -6,7 +6,6 @@ import Footer from "@/components/Footer";
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState("");
-
   return (
     <div className="bg-[#f7f7f7ff]">
       <div className="bg-[#f7f7f7ff] w-full h-2"></div>
@@ -45,7 +44,7 @@ export default function Home() {
         href="/login"
         className="bg-[#1a1a1aff] text-[#f7f7ff] px-4 py-2 rounded-lg hover:bg-[#1b1b1cff]"
       >
-        Sign In
+        Log In
       </a>
       <a
         href="/signup"
