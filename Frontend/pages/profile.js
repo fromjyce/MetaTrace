@@ -2,6 +2,7 @@ import Navbar from '@/components/Navbar';
 import Head from 'next/head';
 import ProfileCard from '@/components/ProfileCard';
 import FileList from '@/components/FileList';
+import Footer from '@/components/Footer';
 
 const Profile = () => {
   const uploadedFiles = [
@@ -34,6 +35,7 @@ const Profile = () => {
         </section>
        </div>
     </div>
+    <Footer/>
     </>
   );
 };
