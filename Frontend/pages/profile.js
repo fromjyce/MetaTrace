@@ -15,6 +15,9 @@ const Profile = () => {
     email: 'johndoe@example.com',
     password: 'securepassword',
   };
+  const handleSave = (updatedData) => {
+    console.log('Updated User Data:', updatedData);
+  };
   return (
     <>
     <Head><title>Profile | MetaTrace</title></Head>
@@ -22,12 +25,12 @@ const Profile = () => {
         <Navbar />
       <div className="px-9 flex flex-col py-8 justify-center">
       <section className='mb-8'>
-          <h2 className="text-2xl font-bold text-gray-800 mb-4 epilogue">Profile</h2>
-          <ProfileCard 
-        name={userData.name} 
-        email={userData.email} 
-        password={userData.password} 
-      />
+          <ProfileCard
+            name="John Doe"
+            email="johndoe@example.com"
+            password="password123"
+            onSave={handleSave}
+          />
         </section>
         <section>
           <h2 className="text-2xl font-bold text-gray-800 mb-4 epilogue">File History</h2>
