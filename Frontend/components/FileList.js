@@ -1,6 +1,6 @@
 export default function FileList({ files }) {
     return (
-      <div className="bg-white rounded-xl shadow-md p-6">
+      <div className="bg-[#fefefa] rounded-xl shadow-md p-6">
         <table className="w-full text-left table-auto">
           <thead>
             <tr>
