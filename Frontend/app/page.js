@@ -202,7 +202,7 @@ export default function Home() {
     </p>
     <a
       href="/signup"
-      className="bg-[#ef4d31ff] text-white py-2 px-6 rounded-full text-lg font-semibold hover:bg-[#bf3e27] poppins"
+      className="bg-[#ef4d31ff] text-[#f7f7f7ff] py-2 px-6 rounded-full text-lg font-semibold hover:bg-[#bf3e27] poppins"
     >
       Get Started Now
     </a>
