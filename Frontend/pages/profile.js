@@ -33,7 +33,7 @@ const Profile = () => {
           />
         </section>
         <section>
-          <h2 className="text-2xl font-bold text-gray-800 mb-4 epilogue">File History</h2>
+          <h2 className="text-2xl font-bold text-gray-800 mb-4 epilogue">File <span className='text-[#ef4d31ff]'>History</span></h2>
           <FileList files={uploadedFiles} />
         </section>
        </div>
