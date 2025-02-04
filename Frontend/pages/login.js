@@ -5,33 +5,59 @@ import Image from 'next/image';
 import { ArrowRight } from "lucide-react";
 import Link from 'next/link';
 import Footer from '@/components/Footer';
+import { useRouter } from 'next/router';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
+  const router = useRouter();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const formErrors = {};
-
+  
+    // Client-side validation
     if (!email) {
       formErrors.email = "Email is required.";
     } else if (!/\S+@\S+\.\S+/.test(email)) {
       formErrors.email = "Please enter a valid email.";
     }
-
+  
     if (!password) {
       formErrors.password = "Password is required.";
     }
-
+  
+    // If there are no client-side validation errors
     if (Object.keys(formErrors).length === 0) {
-      const loginData = { email, password };
-      console.log("Login Data: ", loginData);
+      try {
+        const response = await fetch('/api/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, password }),
+        });
+  
+        const data = await response.json();
+  
+        if (response.ok) {
+          console.log('Login successful:', data);
+          // Redirect to the /upload page after successful login
+          router.push('/upload');
+        } else {
+          // If response is not OK, show the error message
+          setErrors({ email: data.message || 'Invalid email or password' });
+        }
+      } catch (error) {
+        console.error('Login Error:', error);
+        setErrors({ email: 'Something went wrong. Please try again.' });
+      }
+    } else {
+      setErrors(formErrors); // Show client-side validation errors
     }
-
-    setErrors(formErrors);
-  };
+  };  
+  
 
   return (
     <>
