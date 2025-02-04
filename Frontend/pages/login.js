@@ -43,7 +43,7 @@ const Login = () => {
   
         if (response.ok) {
           console.log('Login successful:', data);
-          // Redirect to the /upload page after successful login
+          sessionStorage.setItem('userLoggedIn', 'true');
           router.push('/upload');
         } else {
           // If response is not OK, show the error message
