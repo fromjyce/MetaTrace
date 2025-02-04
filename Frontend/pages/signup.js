@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { ArrowRight } from "lucide-react";
 import Link from 'next/link';
 import Footer from '@/components/Footer';
+import { useRouter } from 'next/navigation';
 
 const Signup = () => {
   const [name, setName] = useState('');
@@ -12,19 +13,19 @@ const Signup = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState({});
+  const router = useRouter();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrors({}); // Clear previous errors
+  
     const formErrors = {};
-
+  
     if (!name) formErrors.name = "Name is required.";
     if (!email) {
       formErrors.email = "Email is required.";
     } else if (!/\S+@\S+\.\S+/.test(email)) {
       formErrors.email = "Please enter a valid email.";
-    }
-    if (email === 'existing@example.com') {
-      formErrors.email = "Email already exists.";
     }
     if (!password) {
       formErrors.password = "Password is required.";
@@ -36,14 +37,32 @@ const Signup = () => {
     if (confirmPassword !== password) {
       formErrors.confirmPassword = "Passwords do not match.";
     }
-
-    if (Object.keys(formErrors).length === 0) {
-      const registrationData = { name, email, password };
-      console.log("Registration Data: ", registrationData);
+  
+    if (Object.keys(formErrors).length > 0) {
+      setErrors(formErrors);
+      return;
     }
-
-    setErrors(formErrors);
-  };
+  
+    try {
+      const response = await fetch("/api/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password }),
+      });
+  
+      const data = await response.json();
+  
+      if (!response.ok) {
+        setErrors({ email: data.error || "Signup failed." }); // Display API error
+      } else {
+        console.log("Registration Successful: ", data);
+        router.push("/upload"); // Redirect to upload page on success
+      }
+    } catch (error) {
+      console.error("Signup Error:", error);
+      setErrors({ general: "Something went wrong. Please try again." });
+    }
+  };  
 
   return (
     <>
