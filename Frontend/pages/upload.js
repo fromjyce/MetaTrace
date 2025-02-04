@@ -5,8 +5,19 @@ import { CloudUpload } from 'lucide-react';
 import Footer from '@/components/Footer';
 import RecentUploads from '@/components/RecentUploads';
 import MetadataModal from '@/components/MetadataModal';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 const Upload = () => {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!sessionStorage.getItem('userLoggedIn')) {
+      // If not logged in, redirect to login page
+      router.push('/login');
+    }
+  }, [router]);
+
   const [file, setFile] = useState(null);
   const [fileEnter, setFileEnter] = useState(false);
   const [recentUploads, setRecentUploads] = useState([
@@ -58,22 +69,43 @@ const Upload = () => {
     return allowedFileTypes.includes(file.type);
   };
   
-  const handleFileChange = (e) => {
+  const handleFileChange = async (e) => {
     const uploadedFile = e.target.files[0];
     if (uploadedFile) {
       if (!validateFileType(uploadedFile)) {
         alert('Unsupported file type. Please upload a valid file.');
         return;
       }
-      const newFile = {
-        name: uploadedFile.name,
-        uploadDate: new Date().toLocaleDateString(),
-        metadata: { size: (uploadedFile.size / 1024 / 1024).toFixed(2) + ' MB', type: uploadedFile.type },
-      };
-      setRecentUploads([newFile, ...recentUploads]);
-      setFile(uploadedFile);
+  
+      const formData = new FormData();
+      formData.append('file', uploadedFile);
+  
+      try {
+        const response = await fetch('/api/extract-metadata', {
+          method: 'POST',
+          body: formData,
+        });
+  
+        if (!response.ok) {
+          throw new Error('Failed to extract metadata');
+        }
+  
+        const { metadata } = await response.json();
+        console.log('Extracted Metadata:', metadata);
+  
+        const newFile = {
+          name: uploadedFile.name,
+          uploadDate: new Date().toLocaleDateString(),
+          metadata,
+        };
+        setRecentUploads([newFile, ...recentUploads]);
+        setFile(uploadedFile);
+      } catch (error) {
+        console.error('Error extracting metadata:', error);
+        alert('Failed to extract metadata. Please try again.');
+      }
     }
-  };
+  };  
   
   const handleFileDrop = (e) => {
     e.preventDefault();
