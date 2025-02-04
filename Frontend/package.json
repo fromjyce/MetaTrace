@@ -9,8 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "chart.js": "^4.4.7",
+    "exiftool": "^0.0.3",
+    "formidable": "^3.5.2",
     "lucide-react": "^0.471.1",
+    "mongoose": "^8.9.6",
     "next": "15.1.4",
     "react": "^19.0.0",
     "react-chartjs-2": "^5.3.0",
