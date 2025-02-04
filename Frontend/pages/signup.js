@@ -56,7 +56,7 @@ const Signup = () => {
         setErrors({ email: data.error || "Signup failed." }); // Display API error
       } else {
         console.log("Registration Successful: ", data);
-        router.push("/upload"); // Redirect to upload page on success
+        router.push("/login"); // Redirect to upload page on success
       }
     } catch (error) {
       console.error("Signup Error:", error);
