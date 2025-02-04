@@ -3,8 +3,19 @@ import Head from 'next/head';
 import ProfileCard from '@/components/ProfileCard';
 import FileList from '@/components/FileList';
 import Footer from '@/components/Footer';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 const Profile = () => {
+  const router = useRouter();
+  
+    useEffect(() => {
+      if (!sessionStorage.getItem('userLoggedIn')) {
+        // If not logged in, redirect to login page
+        router.push('/login');
+      }
+    }, [router]);
+
   const uploadedFiles = [
     { name: 'example.pdf', date: '2025-01-17', id: 1 },
     { name: 'image.jpg', date: '2025-01-16', id: 2 },
