@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MetaTrace - Metadata Extractor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        #metadata {
+            margin-top: 20px;
+            white-space: pre-wrap;
+            text-align: left;
+            display: inline-block;
+            max-width: 80%;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>MetaTrace - Metadata Extractor</h1>
+    <input type="file" id="fileInput">
+    <button onclick="uploadFile()">Upload & Extract Metadata</button>
+    <pre id="metadata"></pre>
+
+    <script>
+        async function uploadFile() {
+            const fileInput = document.getElementById("fileInput");
+            if (fileInput.files.length === 0) {
+                alert("Please select a file.");
+                return;
+            }
+
+            let formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+
+            try {
+                let response = await fetch("http://127.0.0.1:8000/upload/", {
+                    method: "POST",
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Failed to upload file. Server responded with: ${response.status}`);
+                }
+
+                let data = await response.json();
+                console.log("Metadata:", data);
+                document.getElementById("metadata").innerText = JSON.stringify(data.metadata, null, 2);
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Error: " + error.message);
+            }
+        }
+    </script>
+</body>
+</html>
