@@ -13,6 +13,7 @@ const Signup = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e) => {
@@ -42,9 +43,12 @@ const Signup = () => {
       setErrors(formErrors);
       return;
     }
-  
+
+    
+    if (Object.keys(formErrors).length === 0) {
+      setIsLoading(true);
     try {
-      const response = await fetch("/api/signup", {
+      const response = await fetch("/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
@@ -61,7 +65,10 @@ const Signup = () => {
     } catch (error) {
       console.error("Signup Error:", error);
       setErrors({ general: "Something went wrong. Please try again." });
+    } finally {
+      setIsLoading(false);
     }
+  }
   };  
 
   return (
@@ -163,8 +170,9 @@ const Signup = () => {
               <button
                 type="submit"
                 className="w-full bg-[#f74b25ff] text-white py-2 px-4 rounded-lg hover:bg-[#bf3e27] font-semibold"
+                disabled={isLoading}
               >
-                Sign Up
+                {isLoading ? "Signing up..." : "Sign Up"}
               </button>
             </form>
             <p className="text-center text-[#5e5e5eff] mt-4 epilogue font-medium">
