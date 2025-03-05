@@ -6,12 +6,43 @@ import { ArrowRight } from "lucide-react";
 import Link from 'next/link';
 import Footer from '@/components/Footer';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const tokenExpiry = localStorage.getItem("tokenExpiry");
+
+    if (!token || !tokenExpiry) {
+      console.warn("❌ No token or expiry found. Logging out...");
+      logoutUser();
+      return;
+    }
+
+    const expiryTime = Number(tokenExpiry);
+    console.log("✅ Stored Token Expiry:", new Date(expiryTime).toLocaleString());
+    console.log("✅ Current Time:", new Date().toLocaleString());
+
+    if (Date.now() > expiryTime) {
+      console.warn("❌ Session expired. Logging out...");
+      logoutUser();
+    } else {
+      console.log("✅ Token is still valid!");
+    }
+  }, []);
+
+  const logoutUser = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("tokenExpiry");
+    alert("Session expired. Please log in again.");
+    router.push("/login");
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,10 +59,10 @@ const Login = () => {
       formErrors.password = "Password is required.";
     }
   
-    // If there are no client-side validation errors
+    
     if (Object.keys(formErrors).length === 0) {
       try {
-        const response = await fetch('/api/login', {
+        const response = await fetch('/api/auth/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -41,17 +72,22 @@ const Login = () => {
   
         const data = await response.json();
   
-        if (response.ok) {
-          console.log('Login successful:', data);
-          sessionStorage.setItem('userLoggedIn', 'true');
-          router.push('/upload');
-        } else {
-          // If response is not OK, show the error message
-          setErrors({ email: data.message || 'Invalid email or password' });
-        }
+        if (!response.ok) {
+          throw new Error(data.message || "Invalid credentials");
+        } 
+        console.log('Login successful:', data.token);
+        console.log("✅ Received Expiry:", new Date(data.expiry).toLocaleString());
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("tokenExpiry", data.expiry);
+        setTimeout(() => {
+          router.push("/upload");
+        }, 500);
       } catch (error) {
-        console.error('Login Error:', error);
+        console.error('Login Error:', error.message);
         setErrors({ email: 'Something went wrong. Please try again.' });
+      }
+      finally {
+        setIsLoading(false);
       }
     } else {
       setErrors(formErrors); // Show client-side validation errors
@@ -119,8 +155,8 @@ const Login = () => {
               <button
                 type="submit"
                 className="w-full bg-[#f74b25ff] text-white py-2 px-4 rounded-lg hover:bg-[#bf3e27] font-semibold"
-              >
-                Log In
+                disabled={isLoading}>
+                {isLoading ? "Logging in..." : "Log In"}
               </button>
             </form>
             <p className="text-center text-[#5e5e5eff] mt-4 epilogue font-medium">
