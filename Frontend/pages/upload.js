@@ -10,29 +10,11 @@ import { useRouter } from 'next/router';
 
 const Upload = () => {
   const router = useRouter();
-
-  useEffect(() => {
-    if (!sessionStorage.getItem('userLoggedIn')) {
-      // If not logged in, redirect to login page
-      router.push('/login');
-    }
-  }, [router]);
-
   const [file, setFile] = useState(null);
   const [fileEnter, setFileEnter] = useState(false);
-  const [recentUploads, setRecentUploads] = useState([
-    {
-      name: 'example-image.jpg',
-      uploadDate: '2025-01-16',
-      metadata: { size: '2MB', type: 'image/jpeg'},
-    },
-    {
-      name: 'document.pdf',
-      uploadDate: '2025-01-14',
-      metadata: { size: '1MB', type: 'application/pdf' },
-    },
-  ]);
-
+  const [recentUploads, setRecentUploads] = useState([]);
+  const [uploading, setUploading] = useState(false);
+  const [userEmail, setUserEmail] = useState("s@gmail.com");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedFileMetadata, setSelectedFileMetadata] = useState(null);
 
@@ -64,9 +46,30 @@ const Upload = () => {
     'application/x-tar',
     'application/gzip',
   ];
+
+  useEffect(() => {
+    fetchUploadedFiles();
+  }, []);
   
   const validateFileType = (file) => {
     return allowedFileTypes.includes(file.type);
+  };
+
+  const fetchUploadedFiles = async () => {
+    try {
+      const response = await fetch(`/api/upload?email=${encodeURIComponent(userEmail)}`);
+      const data = await response.json();
+      
+      console.log("Fetched Files:", data); // Debugging
+      
+      if (response.ok) {
+        setRecentUploads(data.files || []);
+      } else {
+        console.error("❌ Fetch error:", data.message);
+      }
+    } catch (error) {
+      console.error("❌ Error fetching files:", error);
+    }
   };
   
   const handleFileChange = async (e) => {
@@ -79,30 +82,26 @@ const Upload = () => {
   
       const formData = new FormData();
       formData.append('file', uploadedFile);
+      formData.append("email", userEmail);
+    setUploading(true);
   
       try {
-        const response = await fetch('/api/extract-metadata', {
+        const response = await fetch('/api/upload', {
           method: 'POST',
           body: formData,
         });
-  
-        if (!response.ok) {
-          throw new Error('Failed to extract metadata');
-        }
-  
-        const { metadata } = await response.json();
-        console.log('Extracted Metadata:', metadata);
-  
-        const newFile = {
-          name: uploadedFile.name,
-          uploadDate: new Date().toLocaleDateString(),
-          metadata,
-        };
-        setRecentUploads([newFile, ...recentUploads]);
+
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message || 'Upload failed');
+        
+        alert("✅ File uploaded successfully!");
+        fetchUploadedFiles(); // Refresh list after upload
         setFile(uploadedFile);
       } catch (error) {
         console.error('Error extracting metadata:', error);
         alert('Failed to extract metadata. Please try again.');
+      } finally {
+        setUploading(false);
       }
     }
   };  
@@ -116,13 +115,7 @@ const Upload = () => {
         alert('Unsupported file type. Please upload a valid file.');
         return;
       }
-      const newFile = {
-        name: droppedFile.name,
-        uploadDate: new Date().toLocaleDateString(),
-        metadata: { size: (droppedFile.size / 1024 / 1024).toFixed(2) + ' MB', type: droppedFile.type },
-      };
-      setRecentUploads([newFile, ...recentUploads]);
-      setFile(droppedFile);
+      handleFileChange({ target: { files: e.dataTransfer.files } });
     }
   };
   
