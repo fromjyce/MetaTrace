@@ -13,16 +13,16 @@ const MetadataModal = ({ isOpen, fileMetadata, onClose }) => {
           <X className="w-5 h-5" />
         </button>
         <h3 className="text-lg text-[#1a1a1aff] text-center epilogue font-bold mb-2 mt-4">
-          Metadata of <span className="text-[#f74b25ff]">{fileMetadata?.name || 'N/A'}</span>
+          Metadata of <span className="text-[#f74b25ff]">{fileMetadata?.filename || 'N/A'}</span>
         </h3>
         <ul className="list-none text-sm poppins mb-8">
           {fileMetadata ? (
             <>
               <li className="mb-2">
-                <span className="font-medium capitalize">Name:</span> {fileMetadata.name}
+                <span className="font-medium capitalize">Name:</span> {fileMetadata.filename}
               </li>
               <li className="mb-2">
-                <span className="font-medium capitalize">Upload Date:</span> {fileMetadata.uploadDate}
+                <span className="font-medium capitalize">Upload Date:</span> {new Date(fileMetadata.uploadDate).toLocaleDateString()}
               </li>
               {fileMetadata.metadata ? (
                 Object.entries(fileMetadata.metadata).map(([key, value]) => (
