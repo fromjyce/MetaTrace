@@ -38,12 +38,12 @@ const RecentUploads = ({ uploads, onMetadataClick, onDelete, onDownload }) => {
             className="flex items-center justify-between p-4 bg-[#eceaea] shadow-lg rounded w-full"
           >
             <div className="flex items-center space-x-4 w-1/3">
-            {getFileIcon(upload.metadata.type)}
-              <h4 className="font-semibold truncate epilogue">{upload.name}</h4>
+            {getFileIcon(upload.type)}
+              <h4 className="font-semibold truncate epilogue">{upload.filename}</h4>
             </div>
             <div className="text-center w-1/3">
               <p className="text-sm text-gray-500 poppins">
-                <span className="font-medium">Uploaded on:</span> {upload.uploadDate}
+                <span className="font-medium">Uploaded on:</span> {new Date(upload.uploadDate).toLocaleDateString()}
               </p>
             </div>
             <div className="flex items-center space-x-4 justify-end w-1/3">
