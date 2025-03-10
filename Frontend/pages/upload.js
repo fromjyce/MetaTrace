@@ -130,6 +130,10 @@ const Upload = () => {
     setSelectedFileMetadata(null);
   };
 
+  const handleDelete = (deletedUpload) => {
+    setRecentUploads((prevUploads) => prevUploads.filter((upload) => upload._id !== deletedUpload._id));
+  };
+
   return (
     <>
       <Head>
@@ -172,7 +176,7 @@ const Upload = () => {
           <RecentUploads
             uploads={recentUploads}
             onMetadataClick={handleMetadataClick}
-            onDelete={(file) => console.log('Delete:', file)}
+            onDelete={handleDelete}
             onDownload={(file) => console.log('Download:', file)}
           />
           <MetadataModal
