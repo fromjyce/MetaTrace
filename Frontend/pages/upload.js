@@ -93,8 +93,6 @@ const Upload = () => {
 
         const data = await response.json();
         if (!response.ok) throw new Error(data.message || 'Upload failed');
-        
-        alert("✅ File uploaded successfully!");
         fetchUploadedFiles(); // Refresh list after upload
         setFile(uploadedFile);
       } catch (error) {
@@ -132,6 +130,25 @@ const Upload = () => {
 
   const handleDelete = (deletedUpload) => {
     setRecentUploads((prevUploads) => prevUploads.filter((upload) => upload._id !== deletedUpload._id));
+  };
+
+  const handleModDelete = async (deletedUpload) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this file?");
+    if (confirmDelete) {
+    try {
+      const response = await fetch(`/api/deleteFile?id=${deletedUpload._id}`, { 
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        console.error("Failed to delete the file");
+      }
+      setRecentUploads((prevUploads) => prevUploads.filter((upload) => upload._id !== deletedUpload._id));
+      handleModalClose();
+    } catch (error) {
+      console.error('Error deleting file:', error);
+      alert('❌ Failed to delete file. Please try again.');
+    }
+  }
   };
 
   return (
@@ -182,6 +199,7 @@ const Upload = () => {
             isOpen={isModalOpen}
             fileMetadata={selectedFileMetadata}
             onClose={handleModalClose}
+            onDelete={handleModDelete}
           />
         </div>
         </div>
