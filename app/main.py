@@ -10,7 +10,7 @@ from extract_metadata import extract_metadata  # Import metadata extraction func
 
 app = FastAPI()
 
-# Serve static files from the "static" directory
+# Serve static files from the "static" directory for now
 app.mount("/static", StaticFiles(directory="static", html=True), name="static")
 
 # Enable CORS
