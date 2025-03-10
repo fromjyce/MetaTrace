@@ -12,26 +12,21 @@ const Profile = () => {
   const [error, setError] = useState(null);
   const router = useRouter();
 
+  const handleSave = async (updatedData) => {
+    setUserData(updatedData);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem("token");
       const tokenExpiry = localStorage.getItem("tokenExpiry");
 
-      console.log("🔍 Checking token...");
-      console.log("Stored Token:", token);
-      console.log(
-        "Stored Expiry:",
-        tokenExpiry ? new Date(Number(tokenExpiry)).toLocaleString() : "Not Found"
-      );
-
       if (!token || !tokenExpiry) {
-        console.warn("❌ No token found! Redirecting to login...");
         logoutUser();
         return;
       }
 
       if (Date.now() > Number(tokenExpiry)) {
-        console.warn("❌ Token expired! Redirecting to login...");
         logoutUser();
         return;
       }
@@ -40,7 +35,6 @@ const Profile = () => {
         setLoading(true);
         setError(null);
 
-        // ✅ Fetch User Data
         const userResponse = await fetch("/api/auth/profile", {
           headers: {
             "Content-Type": "application/json",
@@ -55,7 +49,6 @@ const Profile = () => {
         const userData = await userResponse.json();
         setUserData(userData);
       } catch (error) {
-        console.error("❌ Error:", error.message);
         setError(error.message);
         logoutUser();
       } finally {
@@ -93,11 +86,11 @@ const Profile = () => {
                     name={userData.name}
                     email={userData.email}
                     password="******"
+                    onSave={handleSave}
                   />
                 )}
               </section>
-              
-              {/* ✅ Redirect User to Upload Page Instead of Uploading Here */}
+            
               <section className="mb-8">
                 <h2 className="text-2xl font-bold text-gray-800 mb-4">
                   Upload <span className="text-red-500">File</span>
