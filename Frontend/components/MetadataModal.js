@@ -1,7 +1,20 @@
 import { X, Copy, Trash2, Download } from 'lucide-react';
 
-const MetadataModal = ({ isOpen, fileMetadata, onClose }) => {
+const MetadataModal = ({ isOpen, fileMetadata, onClose, onDelete }) => {
   if (!isOpen) return null;
+
+  const handleDownload = (fileMetadata) => {
+    const dataStr = JSON.stringify(fileMetadata, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = window.URL.createObjectURL(dataBlob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${fileMetadata.filename}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -42,10 +55,10 @@ const MetadataModal = ({ isOpen, fileMetadata, onClose }) => {
           <button className="p-2 bg-[#4CBB17] text-white rounded hover:bg-[#2E8B57]" aria-label="Copy File">
             <Copy className="w-5 h-5" />
           </button>
-            <button className="p-2 bg-[#FF4433] text-white rounded hover:bg-[#D22B2B]" aria-label="Delete File">
+            <button className="p-2 bg-[#FF4433] text-white rounded hover:bg-[#D22B2B]" aria-label="Delete File" onClick={() => onDelete(fileMetadata)}>
             <Trash2 className="w-5 h-5" />
           </button>
-          <button className="p-2 bg-[#4169E1] text-white rounded hover:bg-[#0F52BA]" aria-label="Download File">
+          <button className="p-2 bg-[#4169E1] text-white rounded hover:bg-[#0F52BA]" aria-label="Download File" onClick={() => handleDownload(fileMetadata)}>
             <Download className="w-5 h-5" />
           </button>
         </div>
