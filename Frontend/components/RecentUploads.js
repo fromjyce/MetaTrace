@@ -31,7 +31,7 @@ const getFileIcon = (fileType) => {
   };
 
 
-const RecentUploads = ({ uploads, onMetadataClick, onDelete, onDownload }) => {
+const RecentUploads = ({ uploads, onMetadataClick, onDelete}) => {
   const handleDelete = async (upload) => {
     if (!onDelete) {
       console.error("onDelete function is not defined.");

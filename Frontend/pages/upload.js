@@ -177,7 +177,6 @@ const Upload = () => {
             uploads={recentUploads}
             onMetadataClick={handleMetadataClick}
             onDelete={handleDelete}
-            onDownload={(file) => console.log('Download:', file)}
           />
           <MetadataModal
             isOpen={isModalOpen}
