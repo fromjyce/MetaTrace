@@ -17,7 +17,45 @@ const getFileIcon = (fileType) => {
     }
   };
 
+  const handleDownload = (upload) => {
+    const dataStr = JSON.stringify(upload, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = window.URL.createObjectURL(dataBlob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${upload.filename}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  };
+
+
 const RecentUploads = ({ uploads, onMetadataClick, onDelete, onDownload }) => {
+  const handleDelete = async (upload) => {
+    if (!onDelete) {
+      console.error("onDelete function is not defined.");
+      return;
+    }
+  
+    const confirmDelete = window.confirm("Are you sure you want to delete this file?");
+    if (confirmDelete) {
+      try {
+        const response = await fetch(`/api/deleteFile?id=${upload._id}`, {
+          method: 'DELETE',
+        });
+  
+        if (response.ok) {
+          onDelete(upload); // Call onDelete to update UI
+        } else {
+          console.error("Failed to delete the file");
+        }
+      } catch (error) {
+        console.error("Error deleting the file:", error);
+      }
+    }
+  };
+  
   return (
     <div className="mt-8">
       <h3 className="text-xl font-semibold mb-4 epilogue flex justify-between items-center">
@@ -57,14 +95,14 @@ const RecentUploads = ({ uploads, onMetadataClick, onDelete, onDownload }) => {
               <button
                 className="p-2 bg-[#FF4433] text-white rounded hover:bg-[#D22B2B]"
                 aria-label="Delete File"
-                onClick={() => onDelete(upload)}
+                onClick={() => handleDelete(upload)}
               >
                 <Trash2 className="w-5 h-5" />
               </button>
               <button
                 className="p-2 bg-[#4169E1] text-white rounded hover:bg-[#0F52BA]"
                 aria-label="Download File"
-                onClick={() => onDownload(upload)}
+                onClick={() => handleDownload(upload)}
               >
                 <Download className="w-5 h-5" />
               </button>
