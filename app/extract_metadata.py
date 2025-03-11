@@ -2,7 +2,7 @@ import subprocess
 import json
 from fastapi import HTTPException
 
-# Function to extract metadata using ExifTool
+# Extract metadata using ExifTool
 def extract_metadata(file_path: str):
     try:
         # Run ExifTool to extract metadata in JSON format
