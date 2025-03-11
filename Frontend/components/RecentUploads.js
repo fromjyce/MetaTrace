@@ -77,7 +77,7 @@ const RecentUploads = ({ uploads, onMetadataClick, onDelete}) => {
           >
             <div className="flex items-center space-x-4 w-1/3">
             {getFileIcon(upload.type)}
-              <h4 className="font-semibold truncate epilogue">{upload.filename}</h4>
+              <h4 className="font-semibold truncate epilogue w-64">{upload.filename}</h4> {/* Add fixed width and truncate */}
             </div>
             <div className="text-center w-1/3">
               <p className="text-sm text-gray-500 poppins">
