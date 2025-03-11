@@ -1,4 +1,4 @@
-import { Info, Trash2, Download, ArrowRight, FileImage, FileText, FileVideo, FileMusic, FileArchive, File } from 'lucide-react';
+import { Info, Trash2, Download, FileImage, FileText, FileVideo, FileMusic, FileArchive, File } from 'lucide-react';
 
 const getFileIcon = (fileType) => {
   if (fileType.startsWith('image')) {
@@ -35,14 +35,14 @@ export default function FileList({ files, onDelete, onMetadataClick }) {
       console.error("onDelete function is not defined.");
       return;
     }
-  
+
     const confirmDelete = window.confirm("Are you sure you want to delete this file?");
     if (confirmDelete) {
       try {
         const response = await fetch(`/api/deleteFile?id=${upload._id}`, {
           method: 'DELETE',
         });
-  
+
         if (response.ok) {
           onDelete(upload); // Call onDelete to update UI
         } else {
@@ -53,7 +53,6 @@ export default function FileList({ files, onDelete, onMetadataClick }) {
       }
     }
   };
-
 
   return (
     <div className="bg-[#fefefa] rounded-xl shadow-md p-6">
@@ -68,33 +67,38 @@ export default function FileList({ files, onDelete, onMetadataClick }) {
         <tbody>
           {files.map((file) => (
             <tr key={file._id}>
-              <td className="py-2 px-4 border-b">{file.filename}</td>
+              <td className="py-2 px-4 border-b flex items-center">
+                <div className="mr-2">
+                  {getFileIcon(file.type)} {/* File icon on the left */}
+                </div>
+                <span>{file.filename}</span>
+              </td>
               <td className="py-2 px-4 border-b">
                 {new Date(file.uploadDate).toLocaleDateString()}
               </td>
               <td className="py-2 px-4 border-b flex items-center space-x-4 justify-end w-1/3">
-              <button
-                className="p-2 bg-[#4CBB17] text-white rounded hover:bg-[#2E8B57]"
-                aria-label="View Metadata"
-                onClick={() => onMetadataClick(file)}
-              >
-                <Info className="w-5 h-5" />
-              </button>
-              <button
-                className="p-2 bg-[#FF4433] text-white rounded hover:bg-[#D22B2B]"
-                aria-label="Delete File"
-                onClick={() => handleDelete(file)}
-              >
-                <Trash2 className="w-5 h-5" />
-              </button>
-              <button
-                className="p-2 bg-[#4169E1] text-white rounded hover:bg-[#0F52BA]"
-                aria-label="Download File"
-                onClick={() => handleDownload(file)}
-              >
-                <Download className="w-5 h-5" />
-              </button>
-              </td> 
+                <button
+                  className="p-2 bg-[#4CBB17] text-white rounded hover:bg-[#2E8B57]"
+                  aria-label="View Metadata"
+                  onClick={() => onMetadataClick(file)}
+                >
+                  <Info className="w-5 h-5" />
+                </button>
+                <button
+                  className="p-2 bg-[#FF4433] text-white rounded hover:bg-[#D22B2B]"
+                  aria-label="Delete File"
+                  onClick={() => handleDelete(file)}
+                >
+                  <Trash2 className="w-5 h-5" />
+                </button>
+                <button
+                  className="p-2 bg-[#4169E1] text-white rounded hover:bg-[#0F52BA]"
+                  aria-label="Download File"
+                  onClick={() => handleDownload(file)}
+                >
+                  <Download className="w-5 h-5" />
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
