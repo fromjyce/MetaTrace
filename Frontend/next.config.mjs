@@ -7,6 +7,7 @@ const nextConfig = {
           tls: false,
           fs: false,
           "child_process": false,
+          dns: false, "timers/promises": false,
         };
       }
       return config;

@@ -1,17 +1,24 @@
-import { MongoClient } from "mongodb";
+import connectDB from "./db";
 
-const connectDB = async () => {
-  if (!process.env.MONGO_URI) {
-    throw new Error("❌ MONGO_URI is not defined. Check your .env file.");
-  }
+export default async function handler(req, res) {
+    if (req.method === "POST") {
+        try {
+            const db = await connectDB();
+            const usersCollection = db.collection("users");
 
-  const client = new MongoClient(process.env.MONGO_URI, {
-    connectTimeoutMS: 10000,
-    serverSelectionTimeoutMS: 10000,
-  });
+            const { email, password } = req.body;
+            const user = await usersCollection.findOne({ email });
 
-  await client.connect();
-  return client.db("testdb"); // Replace with your actual DB name
-};
-
-export default connectDB;
+            if (user && user.password === password) {
+                res.status(200).json({ message: "Login successful!" });
+            } else {
+                res.status(401).json({ error: "Invalid credentials" });
+            }
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: "Internal Server Error" });
+        }
+    } else {
+        res.status(405).json({ error: "Method not allowed" });
+    }
+}
