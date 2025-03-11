@@ -7,6 +7,7 @@ import ProfileCard from "@/components/ProfileCard";
 import Footer from "@/components/Footer";
 import FileList from "@/components/FileList";
 import MetadataModal from "@/components/MetadataModal";
+import Loader from "@/components/Loader";
 
 const Profile = () => {
   const [userData, setUserData] = useState(null);
@@ -138,7 +139,9 @@ const Profile = () => {
         <Navbar />
         <div className="px-9 flex flex-col py-8 justify-center">
           {loading ? (
-            <p className="text-center text-gray-600">🔄 Loading...</p>
+            <div className="flex justify-center align-center">
+              <Loader /> 
+            </div>
           ) : error ? (
             <p className="text-center text-red-500">⚠ {error}</p>
           ) : (
