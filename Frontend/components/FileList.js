@@ -142,8 +142,8 @@ export default function FileList({ files, onDelete, onMetadataClick, onAllDelete
             {files.map((file) => (
               <tr key={file._id} className="border-b hover:bg-gray-50 transition-colors">
                 <td className="py-3 px-4 flex items-center">
-                  <div className="mr-3">
-                    {getFileIcon(file.type)} {/* File icon on the left */}
+                  <div className="mr-3 flex-shrink-0 w-7 h-7"> {/* Fixed size */}
+                    {getFileIcon(file.type)}
                   </div>
                   <span className="text-gray-700 font-medium epilogue">{file.filename}</span>
                 </td>
