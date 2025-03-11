@@ -16,6 +16,27 @@ const MetadataModal = ({ isOpen, fileMetadata, onClose, onDelete }) => {
     window.URL.revokeObjectURL(url);
   };
 
+  const handleCopy = (fileMetadata) => {
+    if (!fileMetadata) return;
+
+    // Format the metadata as plain text
+    const metadataText = `
+File Name: ${fileMetadata.filename}
+Upload Date: ${new Date(fileMetadata.uploadDate).toLocaleDateString()}
+${fileMetadata.metadata ? Object.entries(fileMetadata.metadata).map(([key, value]) => `${key}: ${value}`).join('\n') : 'No metadata available'}
+    `.trim();
+
+    // Copy the text to the clipboard
+    navigator.clipboard.writeText(metadataText)
+      .then(() => {
+        alert('Metadata copied to clipboard!');
+      })
+      .catch((error) => {
+        console.error('Failed to copy metadata:', error);
+        alert('Failed to copy metadata. Please try again.');
+      });
+  };
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-[#f4f4f4] rounded-lg shadow-lg p-6 w-96 relative">
@@ -52,13 +73,25 @@ const MetadataModal = ({ isOpen, fileMetadata, onClose, onDelete }) => {
           )}
         </ul>
         <div className="flex justify-end space-x-4 mt-4">
-          <button className="p-2 bg-[#4CBB17] text-white rounded hover:bg-[#2E8B57]" aria-label="Copy File">
+          <button
+            className="p-2 bg-[#4CBB17] text-white rounded hover:bg-[#2E8B57]"
+            aria-label="Copy File"
+            onClick={() => handleCopy(fileMetadata)} // Add onClick handler for copy
+          >
             <Copy className="w-5 h-5" />
           </button>
-            <button className="p-2 bg-[#FF4433] text-white rounded hover:bg-[#D22B2B]" aria-label="Delete File" onClick={() => onDelete(fileMetadata)}>
+          <button
+            className="p-2 bg-[#FF4433] text-white rounded hover:bg-[#D22B2B]"
+            aria-label="Delete File"
+            onClick={() => onDelete(fileMetadata)}
+          >
             <Trash2 className="w-5 h-5" />
           </button>
-          <button className="p-2 bg-[#4169E1] text-white rounded hover:bg-[#0F52BA]" aria-label="Download File" onClick={() => handleDownload(fileMetadata)}>
+          <button
+            className="p-2 bg-[#4169E1] text-white rounded hover:bg-[#0F52BA]"
+            aria-label="Download File"
+            onClick={() => handleDownload(fileMetadata)}
+          >
             <Download className="w-5 h-5" />
           </button>
         </div>
