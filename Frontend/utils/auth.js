@@ -1,4 +1,4 @@
-import connectDB from "./db";
+import connectDB from "@/pages/api/db";
 
 export default async function handler(req, res) {
     if (req.method === "POST") {
