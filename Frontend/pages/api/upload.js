@@ -68,24 +68,30 @@ export default async function handler(req, res) {
       if (!email) {
         return res.status(400).json({ message: "User email is required" });
       }
-
+  
       const client = new MongoClient(MONGODB_URI);
       await client.connect();
       const db = client.db(DB_NAME);
-
+  
       // Retrieve uploaded files for the user
       const files = await db.collection("uploads")
         .find({ email })
         .sort({ uploadDate: -1 })
         .toArray();
-
+  
       await client.close();
-      res.status(200).json({ files: files || [] });
+  
+      // Ensure response is always sent
+      if (!files || files.length === 0) {
+        return res.status(200).json({ message: "No files found", files: [] });
+      }
+  
+      res.status(200).json({ files });
     } catch (error) {
       console.error("❌ Error fetching uploads:", error);
-      res.status(500).json({ message: "Failed to fetch uploaded files" });
+      res.status(500).json({ message: "Failed to fetch uploaded files", error: error.message });
     }
-  } 
+  }  
   else {
     res.status(405).json({ message: "Method not allowed" });
   }
