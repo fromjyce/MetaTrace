@@ -45,7 +45,7 @@ const Profile = () => {
         if (!response.ok) {
           console.error('Failed to delete the file');
         }
-        setRecentUploads((prevUploads) => prevUploads.filter((upload) => upload._id !== deletedUpload._id));
+        setFileUploads((prevUploads) => prevUploads.filter((upload) => upload._id !== deletedUpload._id));
         handleModalClose();
       } catch (error) {
         console.error('Error deleting file:', error);
