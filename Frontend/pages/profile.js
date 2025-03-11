@@ -6,16 +6,52 @@ import Head from "next/head";
 import ProfileCard from "@/components/ProfileCard";
 import Footer from "@/components/Footer";
 import FileList from "@/components/FileList";
+import MetadataModal from "@/components/MetadataModal";
 
 const Profile = () => {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [fileUploads, setFileUploads] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedFileMetadata, setSelectedFileMetadata] = useState(null);
   const router = useRouter();
 
   const handleSave = async (updatedData) => {
     setUserData(updatedData);
+  };
+
+  const handleMetadataClick = (upload) => {
+    setSelectedFileMetadata(upload);
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    setSelectedFileMetadata(null);
+  };
+
+  const handleDelete = (deletedUpload) => {
+    setFileUploads((prevUploads) => prevUploads.filter((upload) => upload._id !== deletedUpload._id));
+  };
+
+  const handleModDelete = async (deletedUpload) => {
+    const confirmDelete = window.confirm('Are you sure you want to delete this file?');
+    if (confirmDelete) {
+      try {
+        const response = await fetch(`/api/deleteFile?id=${deletedUpload._id}`, {
+          method: 'DELETE',
+        });
+        if (!response.ok) {
+          console.error('Failed to delete the file');
+        }
+        setRecentUploads((prevUploads) => prevUploads.filter((upload) => upload._id !== deletedUpload._id));
+        handleModalClose();
+      } catch (error) {
+        console.error('Error deleting file:', error);
+        alert('❌ Failed to delete file. Please try again.');
+      }
+    }
   };
 
   useEffect(() => {
@@ -118,7 +154,13 @@ const Profile = () => {
                 <h2 className="text-2xl font-bold text-gray-800 mb-4 epilogue">
                   File <span className="text-[#ef4d31ff]">History</span>
                 </h2>
-                <FileList files={fileUploads} />
+                <FileList files={fileUploads} onDelete={handleDelete} onMetadataClick={handleMetadataClick}/>
+                <MetadataModal
+                isOpen={isModalOpen}
+                fileMetadata={selectedFileMetadata}
+                onClose={handleModalClose}
+                onDelete={handleModDelete}
+          />
               </section>
             </>
           )}
