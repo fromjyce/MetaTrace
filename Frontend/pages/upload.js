@@ -93,15 +93,22 @@ const Upload = () => {
     try {
       const response = await fetch(`/api/upload?email=${encodeURIComponent(userEmail)}`);
       const data = await response.json();
-      console.log("Fetched Files:", data.files); // Debugging
-  
+      
+      console.log("Fetched Files:", data); // Debugging
+      
       if (response.ok) {
-        setRecentUploads(data.files || []);
+        // Sort files by createdAt in descending order (newest first)
+        const sortedFiles = data.files.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        
+        // Get the top 5 most recent files
+        const top5Files = sortedFiles.slice(0, 5);
+        
+        setRecentUploads(top5Files || []);
       } else {
-        console.error('❌ Fetch error:', data.message);
+        console.error("❌ Fetch error:", data.message);
       }
     } catch (error) {
-      console.error('❌ Error fetching files:', error);
+      console.error("❌ Error fetching files:", error);
     }
   };
 
