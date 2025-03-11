@@ -151,9 +151,6 @@ const Profile = () => {
               </section>
 
               <section>
-                <h2 className="text-2xl font-bold text-gray-800 mb-4 epilogue">
-                  File <span className="text-[#ef4d31ff]">History</span>
-                </h2>
                 <FileList files={fileUploads} onDelete={handleDelete} onMetadataClick={handleMetadataClick}/>
                 <MetadataModal
                 isOpen={isModalOpen}
