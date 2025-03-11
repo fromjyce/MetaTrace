@@ -56,43 +56,43 @@ export default function FileList({ files, onDelete, onMetadataClick }) {
 
   return (
     <div className="bg-[#fefefa] rounded-xl shadow-md p-6">
-      <table className="w-full text-left table-auto">
+      <table className="w-full text-left">
         <thead>
-          <tr>
-            <th className="py-2 px-4 border-b">File Name</th>
-            <th className="py-2 px-4 border-b">Upload Date</th>
-            <th className="py-2 px-4 border-b">Actions</th>
+          <tr className="border-b">
+            <th className="py-3 px-4 text-lg font-semibold text-gray-800">File Name</th>
+            <th className="py-3 px-4 text-lg font-semibold text-gray-800">Upload Date</th>
+            <th className="py-3 px-4 text-lg font-semibold text-gray-800 text-right">Actions</th>
           </tr>
         </thead>
         <tbody>
           {files.map((file) => (
-            <tr key={file._id}>
-              <td className="py-2 px-4 border-b flex items-center">
-                <div className="mr-2">
+            <tr key={file._id} className="border-b hover:bg-gray-50 transition-colors">
+              <td className="py-3 px-4 flex items-center">
+                <div className="mr-3">
                   {getFileIcon(file.type)} {/* File icon on the left */}
                 </div>
-                <span>{file.filename}</span>
+                <span className="text-gray-700 font-medium">{file.filename}</span>
               </td>
-              <td className="py-2 px-4 border-b">
+              <td className="py-3 px-4 text-gray-600">
                 {new Date(file.uploadDate).toLocaleDateString()}
               </td>
-              <td className="py-2 px-4 border-b flex items-center space-x-4 justify-end w-1/3">
+              <td className="py-3 px-4 flex items-center justify-end space-x-3">
                 <button
-                  className="p-2 bg-[#4CBB17] text-white rounded hover:bg-[#2E8B57]"
+                  className="p-2 bg-[#4CBB17] text-white rounded-lg hover:bg-[#2E8B57] transition-colors"
                   aria-label="View Metadata"
                   onClick={() => onMetadataClick(file)}
                 >
                   <Info className="w-5 h-5" />
                 </button>
                 <button
-                  className="p-2 bg-[#FF4433] text-white rounded hover:bg-[#D22B2B]"
+                  className="p-2 bg-[#FF4433] text-white rounded-lg hover:bg-[#D22B2B] transition-colors"
                   aria-label="Delete File"
                   onClick={() => handleDelete(file)}
                 >
                   <Trash2 className="w-5 h-5" />
                 </button>
                 <button
-                  className="p-2 bg-[#4169E1] text-white rounded hover:bg-[#0F52BA]"
+                  className="p-2 bg-[#4169E1] text-white rounded-lg hover:bg-[#0F52BA] transition-colors"
                   aria-label="Download File"
                   onClick={() => handleDownload(file)}
                 >
