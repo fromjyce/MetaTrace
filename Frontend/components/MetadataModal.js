@@ -21,10 +21,10 @@ const MetadataModal = ({ isOpen, fileMetadata, onClose, onDelete }) => {
 
     // Format the metadata as plain text
     const metadataText = `
-File Name: ${fileMetadata.filename}
-Upload Date: ${new Date(fileMetadata.uploadDate).toLocaleDateString()}
-${fileMetadata.metadata ? Object.entries(fileMetadata.metadata).map(([key, value]) => `${key}: ${typeof value === "object" ? JSON.stringify(value) : value}`).join('\n') : 'No metadata available'}
-    `.trim();
+      File Name: ${fileMetadata.filename}
+      Upload Date: ${new Date(fileMetadata.uploadDate).toLocaleDateString()}
+      ${fileMetadata.metadata ? Object.entries(fileMetadata.metadata).map(([key, value]) => `${key}: ${typeof value === "object" ? JSON.stringify(value, null, 2) : value}`).join('\n') : 'No metadata available'}
+          `.trim();
 
     // Copy the text to the clipboard
     navigator.clipboard.writeText(metadataText)
@@ -39,40 +39,42 @@ ${fileMetadata.metadata ? Object.entries(fileMetadata.metadata).map(([key, value
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-[#f4f4f4] rounded-lg shadow-lg p-6 w-96 relative">
+      <div className="bg-[#f4f4f4] rounded-lg shadow-lg p-6 max-w-2xl w-full mx-4 relative">
         <button
           onClick={onClose}
           className="absolute top-3 right-3 p-1 text-[#5e5e5eff] hover:text-[#1a1a1aff]"
         >
           <X className="w-5 h-5" />
         </button>
-        <h3 className="text-lg text-[#1a1a1aff] text-center epilogue font-bold mb-2 mt-4">
+        <h3 className="text-lg text-[#1a1a1aff] text-center epilogue font-bold mb-4">
           Metadata of <span className="text-[#f74b25ff]">{fileMetadata?.filename || 'N/A'}</span>
         </h3>
-        <ul className="list-none text-sm poppins mb-8">
-          {fileMetadata ? (
-            <>
-              <li className="mb-2">
-                <span className="font-medium capitalize">Name:</span> {fileMetadata.filename}
-              </li>
-              <li className="mb-2">
-                <span className="font-medium capitalize">Upload Date:</span> {new Date(fileMetadata.uploadDate).toLocaleDateString()}
-              </li>
-              {fileMetadata.metadata ? (
-                Object.entries(fileMetadata.metadata).map(([key, value]) => (
-                  <li className="mb-2" key={key}>
-                    <span className="font-medium capitalize">{key}:</span>{" "}
-                    {typeof value === "object" ? JSON.stringify(value) : value}
-                  </li>
-                ))
-              ) : (
-                <li className="mb-2 text-gray-500">No metadata available</li>
-              )}
-            </>
-          ) : (
-            <li className="text-gray-500">No file selected</li>
-          )}
-        </ul>
+        <div className="overflow-y-auto max-h-96">
+          <ul className="list-none text-sm poppins">
+            {fileMetadata ? (
+              <>
+                <li className="mb-2">
+                  <span className="font-medium capitalize">Name:</span> {fileMetadata.filename}
+                </li>
+                <li className="mb-2">
+                  <span className="font-medium capitalize">Upload Date:</span> {new Date(fileMetadata.uploadDate).toLocaleDateString()}
+                </li>
+                {fileMetadata.metadata ? (
+                  Object.entries(fileMetadata.metadata).map(([key, value]) => (
+                    <li className="mb-2" key={key}>
+                      <span className="font-medium capitalize">{key}:</span>{" "}
+                      <pre className="whitespace-pre-wrap break-words">{typeof value === "object" ? JSON.stringify(value, null, 2) : value}</pre>
+                    </li>
+                  ))
+                ) : (
+                  <li className="mb-2 text-gray-500">No metadata available</li>
+                )}
+              </>
+            ) : (
+              <li className="text-gray-500">No file selected</li>
+            )}
+          </ul>
+        </div>
         <div className="flex justify-end space-x-4 mt-4">
           <button
             className="p-2 bg-[#4CBB17] text-white rounded hover:bg-[#2E8B57]"
