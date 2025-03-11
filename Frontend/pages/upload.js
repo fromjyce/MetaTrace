@@ -116,33 +116,34 @@ const Upload = () => {
     const uploadedFile = e.target.files[0];
     if (uploadedFile) {
       if (!validateFileType(uploadedFile)) {
-        alert('Unsupported file type. Please upload a valid file.');
+        alert("Unsupported file type. Please upload a valid file.");
         return;
       }
-
+  
       const formData = new FormData();
-      formData.append('file', uploadedFile);
-      formData.append('email', userEmail); // Use the user's email
+      formData.append("file", uploadedFile);
+      formData.append("email", userEmail);
+  
       setUploading(true);
-
+  
       try {
-        const response = await fetch('/api/upload', {
-          method: 'POST',
+        const response = await fetch("/api/upload", {
+          method: "POST",
           body: formData,
         });
-
+  
         const data = await response.json();
         if (!response.ok) throw new Error(data.message || 'Upload failed');
-        fetchUploadedFiles(); // Refresh list after upload
+        fetchUploadedFiles(); 
         setFile(uploadedFile);
       } catch (error) {
-        console.error('Error extracting metadata:', error);
-        alert('Failed to extract metadata. Please try again.');
+        console.error("Error uploading file:", error);
+        alert("Upload failed. Please try again.");
       } finally {
         setUploading(false);
       }
     }
-  };
+  };  
 
   const handleFileDrop = (e) => {
     e.preventDefault();
