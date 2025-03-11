@@ -47,6 +47,7 @@ export default async function handler(req, res) {
         });
 
         const fastApiData = await fastApiResponse.json();
+        const { message, ...metadataWithoutMessage } = fastApiData;
         const client = new MongoClient(MONGODB_URI);
         await client.connect();
         const db = client.db(DB_NAME);
@@ -58,7 +59,7 @@ export default async function handler(req, res) {
           type: file.mimetype,
           size: file.size,
           uploadDate: new Date(),
-          metadata: fastApiData,
+          metadata: metadataWithoutMessage,
         });
 
         await client.close();
