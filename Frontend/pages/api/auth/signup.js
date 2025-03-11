@@ -1,4 +1,4 @@
-import connectDB from "../../../utils/auth";
+import connectDB from "../db";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 

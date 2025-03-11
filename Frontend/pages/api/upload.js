@@ -1,5 +1,3 @@
-import dotenv from "dotenv";
-dotenv.config();
 import formidable from "formidable";
 import { MongoClient } from "mongodb";
 import fs from "fs";
