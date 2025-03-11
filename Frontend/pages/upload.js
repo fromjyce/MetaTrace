@@ -1,11 +1,10 @@
 import Navbar from '@/components/Navbar';
 import Head from 'next/head';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CloudUpload } from 'lucide-react';
 import Footer from '@/components/Footer';
 import RecentUploads from '@/components/RecentUploads';
 import MetadataModal from '@/components/MetadataModal';
-import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 const Upload = () => {
@@ -14,7 +13,7 @@ const Upload = () => {
   const [fileEnter, setFileEnter] = useState(false);
   const [recentUploads, setRecentUploads] = useState([]);
   const [uploading, setUploading] = useState(false);
-  const [userEmail, setUserEmail] = useState("s@gmail.com");
+  const [userEmail, setUserEmail] = useState(null); // Initialize as null
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedFileMetadata, setSelectedFileMetadata] = useState(null);
 
@@ -48,9 +47,44 @@ const Upload = () => {
   ];
 
   useEffect(() => {
-    fetchUploadedFiles();
+    fetchUserEmail();
   }, []);
+
+  useEffect(() => {
+    if (userEmail) {
+      console.log("Fetching Uploaded Files for Email:", userEmail); // Debugging
+      fetchUploadedFiles();
+    }
+  }, [userEmail]);
+
+  const fetchUserEmail = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      router.push('/login');
+      return;
+    }
   
+    try {
+      const response = await fetch('/api/auth/profile', {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to fetch user profile');
+      }
+  
+      const userData = await response.json();
+      console.log("Fetched User Email:", userData.email); // Debugging
+      setUserEmail(userData.email);
+    } catch (error) {
+      console.error('Error fetching user email:', error);
+      router.push('/login');
+    }
+  };
+
   const validateFileType = (file) => {
     return allowedFileTypes.includes(file.type);
   };
@@ -59,17 +93,18 @@ const Upload = () => {
     try {
       const response = await fetch(`/api/upload?email=${encodeURIComponent(userEmail)}`);
       const data = await response.json();
-      
+      console.log("Fetched Files:", data.files); // Debugging
+  
       if (response.ok) {
         setRecentUploads(data.files || []);
       } else {
-        console.error("❌ Fetch error:", data.message);
+        console.error('❌ Fetch error:', data.message);
       }
     } catch (error) {
-      console.error("❌ Error fetching files:", error);
+      console.error('❌ Error fetching files:', error);
     }
   };
-  
+
   const handleFileChange = async (e) => {
     const uploadedFile = e.target.files[0];
     if (uploadedFile) {
@@ -77,12 +112,12 @@ const Upload = () => {
         alert('Unsupported file type. Please upload a valid file.');
         return;
       }
-  
+
       const formData = new FormData();
       formData.append('file', uploadedFile);
-      formData.append("email", userEmail);
-    setUploading(true);
-  
+      formData.append('email', userEmail); // Use the user's email
+      setUploading(true);
+
       try {
         const response = await fetch('/api/upload', {
           method: 'POST',
@@ -100,8 +135,8 @@ const Upload = () => {
         setUploading(false);
       }
     }
-  };  
-  
+  };
+
   const handleFileDrop = (e) => {
     e.preventDefault();
     setFileEnter(false);
@@ -114,7 +149,6 @@ const Upload = () => {
       handleFileChange({ target: { files: e.dataTransfer.files } });
     }
   };
-  
 
   const handleMetadataClick = (upload) => {
     setSelectedFileMetadata(upload);
@@ -131,22 +165,22 @@ const Upload = () => {
   };
 
   const handleModDelete = async (deletedUpload) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this file?");
+    const confirmDelete = window.confirm('Are you sure you want to delete this file?');
     if (confirmDelete) {
-    try {
-      const response = await fetch(`/api/deleteFile?id=${deletedUpload._id}`, { 
-        method: 'DELETE',
-      });
-      if (!response.ok) {
-        console.error("Failed to delete the file");
+      try {
+        const response = await fetch(`/api/deleteFile?id=${deletedUpload._id}`, {
+          method: 'DELETE',
+        });
+        if (!response.ok) {
+          console.error('Failed to delete the file');
+        }
+        setRecentUploads((prevUploads) => prevUploads.filter((upload) => upload._id !== deletedUpload._id));
+        handleModalClose();
+      } catch (error) {
+        console.error('Error deleting file:', error);
+        alert('❌ Failed to delete file. Please try again.');
       }
-      setRecentUploads((prevUploads) => prevUploads.filter((upload) => upload._id !== deletedUpload._id));
-      handleModalClose();
-    } catch (error) {
-      console.error('Error deleting file:', error);
-      alert('❌ Failed to delete file. Please try again.');
     }
-  }
   };
 
   return (
@@ -200,7 +234,7 @@ const Upload = () => {
             onDelete={handleModDelete}
           />
         </div>
-        </div>
+      </div>
       <Footer />
     </>
   );
