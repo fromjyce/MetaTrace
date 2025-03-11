@@ -72,7 +72,7 @@ export default function ProfileCard({ name, email, password, onSave }) {
           onClick={() => setIsEditing(!isEditing)}
         >
           <UserPen className="text-xl" />
-          <span className="text-xl">Edit</span>
+          <span className="text-xl epilogue">Edit</span>
         </button>
       </div>
 
