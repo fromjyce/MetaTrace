@@ -5,11 +5,13 @@ import Navbar from "@/components/Navbar";
 import Head from "next/head";
 import ProfileCard from "@/components/ProfileCard";
 import Footer from "@/components/Footer";
+import FileList from "@/components/FileList";
 
 const Profile = () => {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [fileUploads, setFileUploads] = useState([]);
   const router = useRouter();
 
   const handleSave = async (updatedData) => {
@@ -59,6 +61,27 @@ const Profile = () => {
     fetchData();
   }, [router]);
 
+  useEffect(() => {
+    if (userData?.email) {
+      fetchUploadedFiles();
+    }
+  }, [userData]);
+
+  const fetchUploadedFiles = async () => {
+    try {
+      const response = await fetch(`/api/files?email=${encodeURIComponent(userData.email)}`);
+      const data = await response.json();
+  
+      if (response.ok) {
+        setFileUploads(data.files || []);
+      } else {
+        console.error("❌ Fetch error:", data.message);
+      }
+    } catch (error) {
+      console.error("❌ Error fetching files:", error);
+    }
+  };
+
   const logoutUser = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("tokenExpiry");
@@ -90,17 +113,12 @@ const Profile = () => {
                   />
                 )}
               </section>
-            
-              <section className="mb-8">
-                <h2 className="text-2xl font-bold text-gray-800 mb-4">
-                  Upload <span className="text-red-500">File</span>
+
+              <section>
+                <h2 className="text-2xl font-bold text-gray-800 mb-4 epilogue">
+                  File <span className="text-[#ef4d31ff]">History</span>
                 </h2>
-                <button
-                  onClick={() => router.push("/upload")}
-                  className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700"
-                >
-                  Go to Upload Page
-                </button>
+                <FileList files={fileUploads} />
               </section>
             </>
           )}
