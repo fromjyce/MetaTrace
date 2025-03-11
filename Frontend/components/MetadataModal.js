@@ -23,7 +23,7 @@ const MetadataModal = ({ isOpen, fileMetadata, onClose, onDelete }) => {
     const metadataText = `
 File Name: ${fileMetadata.filename}
 Upload Date: ${new Date(fileMetadata.uploadDate).toLocaleDateString()}
-${fileMetadata.metadata ? Object.entries(fileMetadata.metadata).map(([key, value]) => `${key}: ${value}`).join('\n') : 'No metadata available'}
+${fileMetadata.metadata ? Object.entries(fileMetadata.metadata).map(([key, value]) => `${key}: ${typeof value === "object" ? JSON.stringify(value) : value}`).join('\n') : 'No metadata available'}
     `.trim();
 
     // Copy the text to the clipboard
@@ -61,7 +61,8 @@ ${fileMetadata.metadata ? Object.entries(fileMetadata.metadata).map(([key, value
               {fileMetadata.metadata ? (
                 Object.entries(fileMetadata.metadata).map(([key, value]) => (
                   <li className="mb-2" key={key}>
-                    <span className="font-medium capitalize">{key}:</span> {value}
+                    <span className="font-medium capitalize">{key}:</span>{" "}
+                    {typeof value === "object" ? JSON.stringify(value) : value}
                   </li>
                 ))
               ) : (
@@ -76,7 +77,7 @@ ${fileMetadata.metadata ? Object.entries(fileMetadata.metadata).map(([key, value
           <button
             className="p-2 bg-[#4CBB17] text-white rounded hover:bg-[#2E8B57]"
             aria-label="Copy File"
-            onClick={() => handleCopy(fileMetadata)} // Add onClick handler for copy
+            onClick={() => handleCopy(fileMetadata)}
           >
             <Copy className="w-5 h-5" />
           </button>
