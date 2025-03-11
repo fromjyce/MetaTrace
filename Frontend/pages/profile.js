@@ -103,6 +103,10 @@ const Profile = () => {
     }
   }, [userData]);
 
+  const handleDeleteAllFiles = () => {
+    setFileUploads([]);
+  };
+
   const fetchUploadedFiles = async () => {
     try {
       const response = await fetch(`/api/files?email=${encodeURIComponent(userData.email)}`);
@@ -151,7 +155,7 @@ const Profile = () => {
               </section>
 
               <section>
-                <FileList files={fileUploads} onDelete={handleDelete} onMetadataClick={handleMetadataClick}/>
+                <FileList files={fileUploads} onDelete={handleDelete} onMetadataClick={handleMetadataClick} onAllDelete={handleDeleteAllFiles}/>
                 <MetadataModal
                 isOpen={isModalOpen}
                 fileMetadata={selectedFileMetadata}
