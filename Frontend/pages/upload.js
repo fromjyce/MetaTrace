@@ -60,8 +60,6 @@ const Upload = () => {
       const response = await fetch(`/api/upload?email=${encodeURIComponent(userEmail)}`);
       const data = await response.json();
       
-      console.log("Fetched Files:", data); // Debugging
-      
       if (response.ok) {
         setRecentUploads(data.files || []);
       } else {
