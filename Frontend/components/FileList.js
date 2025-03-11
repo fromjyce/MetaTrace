@@ -32,6 +32,7 @@ const handleDownload = (upload) => {
 
 export default function FileList({ files, onDelete, onMetadataClick, onAllDelete }) {
   const router = useRouter();
+
   const handleDelete = async (upload) => {
     if (!onDelete) {
       console.error("onDelete function is not defined.");
@@ -92,11 +93,12 @@ export default function FileList({ files, onDelete, onMetadataClick, onAllDelete
     }
   };
 
-
   const handleUpload = () => {
     router.push('/upload');
   };
 
+  // Check if there are no files
+  const noFiles = files.length === 0;
 
   return (
     <div>
@@ -106,15 +108,21 @@ export default function FileList({ files, onDelete, onMetadataClick, onAllDelete
         </h2>
         <div className="flex items-center space-x-3">
           <button
-            className="p-2 rounded-lg hover:text-[#0F52BA] transition-colors flex items-center justify-center font-semibold epilogue"
+            className={`p-2 rounded-lg transition-colors flex items-center justify-center font-semibold epilogue ${
+              noFiles ? 'opacity-50 cursor-not-allowed' : 'hover:text-[#0F52BA]'
+            }`}
             onClick={handleDownloadAll}
+            disabled={noFiles}
           >
             <Download className="w-5 h-5 mr-2 text-[#4169E1]" />
             <span className='text-[#4169E1]'>Download All</span>
           </button>
           <button
-            className="p-2 rounded-lg hover:text-[#D22B2B] transition-colors flex items-center justify-center  font-semibold epilogue"
+            className={`p-2 rounded-lg transition-colors flex items-center justify-center font-semibold epilogue ${
+              noFiles ? 'opacity-50 cursor-not-allowed' : 'hover:text-[#D22B2B]'
+            }`}
             onClick={handleDeleteAll}
+            disabled={noFiles}
           >
             <Trash2 className="w-5 h-5 mr-2 text-[#FF4433]" />
             <span className='text-[#FF4433]'>Delete All</span>
@@ -130,53 +138,59 @@ export default function FileList({ files, onDelete, onMetadataClick, onAllDelete
       </div>
 
       <div className="bg-[#fefefa] rounded-xl shadow-md p-6">
-        <table className="w-full text-left">
-          <thead>
-            <tr className="border-b">
-              <th className="py-3 px-4 text-lg font-semibold text-gray-800 poppins">File Name</th>
-              <th className="py-3 px-4 text-lg font-semibold text-gray-800 poppins">Upload Date</th>
-              <th className="py-3 px-4 text-lg font-semibold text-gray-800 poppins">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {files.map((file) => (
-              <tr key={file._id} className="border-b hover:bg-gray-50 transition-colors">
-                <td className="py-3 px-4 flex items-center">
-                  <div className="mr-3 flex-shrink-0 w-7 h-7"> {/* Fixed size */}
-                    {getFileIcon(file.type)}
-                  </div>
-                  <span className="text-gray-700 font-medium epilogue">{file.filename}</span>
-                </td>
-                <td className="py-3 px-4 text-gray-600 poppins">
-                  {new Date(file.uploadDate).toLocaleDateString()}
-                </td>
-                <td className="py-3 px-4 flex items-center justify-start space-x-3">
-                  <button
-                    className="p-2 bg-[#4CBB17] text-white rounded-lg hover:bg-[#2E8B57] transition-colors"
-                    aria-label="View Metadata"
-                    onClick={() => onMetadataClick(file)}
-                  >
-                    <Info className="w-5 h-5" />
-                  </button>
-                  <button
-                    className="p-2 bg-[#FF4433] text-white rounded-lg hover:bg-[#D22B2B] transition-colors"
-                    aria-label="Delete File"
-                    onClick={() => handleDelete(file)}
-                  >
-                    <Trash2 className="w-5 h-5" />
-                  </button>
-                  <button
-                    className="p-2 bg-[#4169E1] text-white rounded-lg hover:bg-[#0F52BA] transition-colors"
-                    aria-label="Download File"
-                    onClick={() => handleDownload(file)}
-                  >
-                    <Download className="w-5 h-5" />
-                  </button>
-                </td>
+        {noFiles ? (
+          <div className="flex items-center justify-center h-64">
+            <p className="text-gray-500 text-lg poppins">No files found. Upload a file to get started!</p>
+          </div>
+        ) : (
+          <table className="w-full text-left">
+            <thead>
+              <tr className="border-b">
+                <th className="py-3 px-4 text-lg font-semibold text-gray-800 poppins">File Name</th>
+                <th className="py-3 px-4 text-lg font-semibold text-gray-800 poppins">Upload Date</th>
+                <th className="py-3 px-4 text-lg font-semibold text-gray-800 poppins">Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {files.map((file) => (
+                <tr key={file._id} className="border-b hover:bg-gray-50 transition-colors">
+                  <td className="py-3 px-4 flex items-center">
+                    <div className="mr-3 flex-shrink-0 w-7 h-7">
+                      {getFileIcon(file.type)}
+                    </div>
+                    <span className="text-gray-700 font-medium epilogue">{file.filename}</span>
+                  </td>
+                  <td className="py-3 px-4 text-gray-600 poppins">
+                    {new Date(file.uploadDate).toLocaleDateString()}
+                  </td>
+                  <td className="py-3 px-4 flex items-center justify-start space-x-3">
+                    <button
+                      className="p-2 bg-[#4CBB17] text-white rounded-lg hover:bg-[#2E8B57] transition-colors"
+                      aria-label="View Metadata"
+                      onClick={() => onMetadataClick(file)}
+                    >
+                      <Info className="w-5 h-5" />
+                    </button>
+                    <button
+                      className="p-2 bg-[#FF4433] text-white rounded-lg hover:bg-[#D22B2B] transition-colors"
+                      aria-label="Delete File"
+                      onClick={() => handleDelete(file)}
+                    >
+                      <Trash2 className="w-5 h-5" />
+                    </button>
+                    <button
+                      className="p-2 bg-[#4169E1] text-white rounded-lg hover:bg-[#0F52BA] transition-colors"
+                      aria-label="Download File"
+                      onClick={() => handleDownload(file)}
+                    >
+                      <Download className="w-5 h-5" />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
     </div>
   );
