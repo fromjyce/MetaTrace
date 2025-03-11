@@ -1,54 +1,54 @@
-from fastapi import FastAPI, File, UploadFile, HTTPException
-from fastapi.responses import JSONResponse, RedirectResponse
-import os
-import json
-from pathlib import Path
-import shutil
+from fastapi import FastAPI, File, UploadFile, Form, HTTPException
+from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
-from extract_metadata import extract_metadata  # Import metadata extraction function
+import os
+import subprocess
+import json
+from fastapi import HTTPException
 
 app = FastAPI()
 
-# Serve static files from the "static" directory for now
-app.mount("/static", StaticFiles(directory="static", html=True), name="static")
-
-# Enable CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"], 
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Directory for uploads
-UPLOAD_DIR = Path("uploads")
-UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
-
-# Endpoint to upload a file and extract metadata
-@app.post("/upload/")
-async def upload_file(file: UploadFile = File(...)):
-    file_path = UPLOAD_DIR / file.filename
-
+def extract_metadata(file_path: str):
     try:
-        # Save uploaded file
-        with open(file_path, "wb") as f:
-            shutil.copyfileobj(file.file, f)
+        result = subprocess.run(
+            ["exiftool", "-json", file_path],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        metadata_list = json.loads(result.stdout)
+        return metadata_list[0] if metadata_list else {}
 
-        # Extract metadata
+    except FileNotFoundError:
+        raise HTTPException(status_code=500, detail="ExifTool not found. Please install it.")
+    except subprocess.CalledProcessError:
+        raise HTTPException(status_code=500, detail="Error extracting metadata.")
+    except json.JSONDecodeError:
+        raise HTTPException(status_code=500, detail="Invalid metadata format.")
+
+
+@app.post("/upload/")
+async def upload_file(file: UploadFile = File(...), email: str = Form(...)):
+    try:
+        file_path = f"./uploads/{file.filename}"
+        with open(file_path, "wb") as buffer:
+            buffer.write(await file.read())
         metadata = extract_metadata(file_path)
+        
+        os.remove(file_path)
 
+        return JSONResponse(
+            content={"message": "File uploaded successfully", "metadata": metadata},
+            status_code=200,
+        )
     except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
-    finally:
-        # Ensure file is deleted after processing
-        if file_path.exists():
-            os.remove(file_path)
-
-    return JSONResponse(content={"filename": file.filename, "metadata": metadata}, status_code=200)
-
-# Redirect root URL to index.html
-@app.get("/")
-def read_root():
-    return RedirectResponse(url="/static/index.html")
+        print(f"❌ Upload error: {str(e)}")
+        raise HTTPException(status_code=500, detail="Upload failed")
