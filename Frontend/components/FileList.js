@@ -106,25 +106,25 @@ export default function FileList({ files, onDelete, onMetadataClick, onAllDelete
         </h2>
         <div className="flex items-center space-x-3">
           <button
-            className="p-2 bg-[#4169E1] text-white rounded-lg hover:bg-[#0F52BA] transition-colors flex items-center"
+            className="p-2 rounded-lg hover:text-[#0F52BA] transition-colors flex items-center justify-center font-semibold epilogue"
             onClick={handleDownloadAll}
           >
-            <Download className="w-5 h-5 mr-2" />
-            <span>Download All</span>
+            <Download className="w-5 h-5 mr-2 text-[#4169E1]" />
+            <span className='text-[#4169E1]'>Download All</span>
           </button>
           <button
-            className="p-2 bg-[#FF4433] text-white rounded-lg hover:bg-[#D22B2B] transition-colors flex items-center"
+            className="p-2 rounded-lg hover:text-[#D22B2B] transition-colors flex items-center justify-center  font-semibold epilogue"
             onClick={handleDeleteAll}
           >
-            <Trash2 className="w-5 h-5 mr-2" />
-            <span>Delete All</span>
+            <Trash2 className="w-5 h-5 mr-2 text-[#FF4433]" />
+            <span className='text-[#FF4433]'>Delete All</span>
           </button>
           <button
-            className="p-2 bg-[#4CBB17] text-white rounded-lg hover:bg-[#2E8B57] transition-colors flex items-center"
+            className="p-2 rounded-lg hover:text-[#2E8B57] transition-colors flex items-center justify-center font-semibold epilogue"
             onClick={handleUpload}
           >
-            <Upload className="w-5 h-5 mr-2" />
-            <span>Upload</span>
+            <Upload className="w-5 h-5 mr-2 text-[#4CBB17]" />
+            <span className='text-[#4CBB17]'>Upload</span>
           </button>
         </div>
       </div>
@@ -133,9 +133,9 @@ export default function FileList({ files, onDelete, onMetadataClick, onAllDelete
         <table className="w-full text-left">
           <thead>
             <tr className="border-b">
-              <th className="py-3 px-4 text-lg font-semibold text-gray-800">File Name</th>
-              <th className="py-3 px-4 text-lg font-semibold text-gray-800">Upload Date</th>
-              <th className="py-3 px-4 text-lg font-semibold text-gray-800 text-right">Actions</th>
+              <th className="py-3 px-4 text-lg font-semibold text-gray-800 poppins">File Name</th>
+              <th className="py-3 px-4 text-lg font-semibold text-gray-800 poppins">Upload Date</th>
+              <th className="py-3 px-4 text-lg font-semibold text-gray-800 poppins">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -145,12 +145,12 @@ export default function FileList({ files, onDelete, onMetadataClick, onAllDelete
                   <div className="mr-3">
                     {getFileIcon(file.type)} {/* File icon on the left */}
                   </div>
-                  <span className="text-gray-700 font-medium">{file.filename}</span>
+                  <span className="text-gray-700 font-medium epilogue">{file.filename}</span>
                 </td>
-                <td className="py-3 px-4 text-gray-600">
+                <td className="py-3 px-4 text-gray-600 poppins">
                   {new Date(file.uploadDate).toLocaleDateString()}
                 </td>
-                <td className="py-3 px-4 flex items-center justify-end space-x-3">
+                <td className="py-3 px-4 flex items-center justify-start space-x-3">
                   <button
                     className="p-2 bg-[#4CBB17] text-white rounded-lg hover:bg-[#2E8B57] transition-colors"
                     aria-label="View Metadata"
