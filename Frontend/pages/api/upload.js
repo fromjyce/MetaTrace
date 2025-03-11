@@ -1,28 +1,23 @@
 import formidable from "formidable";
+import { v2 as cloudinary } from "cloudinary";
 import { MongoClient } from "mongodb";
 import fs from "fs";
-import path from "path";
-import mime from "mime-types";
 
 export const config = { api: { bodyParser: false } };
 
 const MONGODB_URI = process.env.MONGO_URI;
 const DB_NAME = "testdb";
-const UPLOADS_DIR = "/uploads"; // Static folder for serving files
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
     try {
-      const uploadDir = path.join(process.cwd(), "public", UPLOADS_DIR);
-      if (!fs.existsSync(uploadDir)) {
-        fs.mkdirSync(uploadDir, { recursive: true });
-      }
-
-      const form = formidable({
-        multiples: false,
-        uploadDir: uploadDir,
-        keepExtensions: true,
-      });
+      const form = formidable({ multiples: false });
 
       form.parse(req, async (err, fields, files) => {
         if (err) {
@@ -37,33 +32,37 @@ export default async function handler(req, res) {
           return res.status(400).json({ message: "Missing file or user email" });
         }
 
-        const newFileName = `${Date.now()}_${file.originalFilename}`;
-        const newFilePath = path.join(uploadDir, newFileName);
-        fs.renameSync(file.filepath, newFilePath); // Rename file properly
+        // Upload file to Cloudinary
+        const uploadResult = await cloudinary.uploader.upload(file.filepath, {
+          folder: "uploads",
+        });
 
+        // Remove temp file
+        fs.unlinkSync(file.filepath);
+
+        // Store in MongoDB
         const client = new MongoClient(MONGODB_URI);
         await client.connect();
         const db = client.db(DB_NAME);
 
-        // Save file details with a public URL
         await db.collection("uploads").insertOne({
           email,
           filename: file.originalFilename,
-          storedName: newFileName,
-          fileUrl: `${UPLOADS_DIR}/${newFileName}`, // Accessible via frontend
-          type: mime.lookup(newFilePath) || "unknown",
+          cloudinaryUrl: uploadResult.secure_url, // Public Cloudinary URL
+          type: file.mimetype,
           size: file.size,
           uploadDate: new Date(),
         });
 
         await client.close();
-        res.status(200).json({ message: "✅ File uploaded successfully!", filename: file.originalFilename });
+        res.status(200).json({ message: "✅ File uploaded successfully!", url: uploadResult.secure_url });
       });
     } catch (error) {
       console.error("❌ Server Error:", error);
       res.status(500).json({ message: "Internal Server Error", error: error.message });
     }
-  } else if (req.method === "GET") {
+  } 
+  else if (req.method === "GET") {
     try {
       const { email } = req.query;
       if (!email) {
@@ -73,15 +72,21 @@ export default async function handler(req, res) {
       const client = new MongoClient(MONGODB_URI);
       await client.connect();
       const db = client.db(DB_NAME);
-      const files = await db.collection("uploads").find({ email }).sort({ uploadDate: -1 }).toArray();
-      await client.close();
 
+      // Retrieve uploaded files for the user
+      const files = await db.collection("uploads")
+        .find({ email })
+        .sort({ uploadDate: -1 })
+        .toArray();
+
+      await client.close();
       res.status(200).json({ files: files || [] });
     } catch (error) {
       console.error("❌ Error fetching uploads:", error);
       res.status(500).json({ message: "Failed to fetch uploaded files" });
     }
-  } else {
+  } 
+  else {
     res.status(405).json({ message: "Method not allowed" });
   }
 }

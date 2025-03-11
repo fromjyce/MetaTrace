@@ -2,8 +2,7 @@
     "functions": {
       "api/upload": {
         "maxDuration": 10,
-        "memory": 256,
-        "maxRequestBodySize": "10mb"
+        "memory": 256
       }
     }
   }
