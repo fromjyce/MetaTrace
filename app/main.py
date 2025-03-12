@@ -55,7 +55,10 @@ async def upload_file(file: UploadFile = File(...), email: str = Form(...)):
         print(f"❌ Upload error: {str(e)}")
         raise HTTPException(status_code=500, detail="Upload failed")
 
-client = Groq(api_key="GROQ_API_KEY")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+if not GROQ_API_KEY:
+    raise ValueError("GROQ_API_KEY environment variable is not set")
+client = Groq(api_key=GROQ_API_KEY)
 
 @app.post("/recommend/")
 async def recommend(metadata: dict):
