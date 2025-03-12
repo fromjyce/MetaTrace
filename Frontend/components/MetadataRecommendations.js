@@ -1,4 +1,4 @@
-import { Upload, FolderSearch, List, BrainCog } from "lucide-react";
+import { Upload, FolderSearch, List, BrainCog, Smile, Frown } from "lucide-react";
 import { useState, useEffect } from 'react';
 import AILoader from "./AILoader";
 
@@ -82,38 +82,48 @@ const MetadataAndRecommendations = ({ metadata, onBackToUpload }) => {
             <h4 className="text-lg font-bold epilogue">AI Recommendations</h4>
           </div>
           <div className="overflow-y-auto max-h-80">
-          {loading ? (
-            <div className="flex items-center justify-center h-full">
-            <AILoader />
+            {loading ? (
+              <div className="flex items-center justify-center h-full">
+                <AILoader />
+              </div>
+            ) : aiRecommendations ? (
+              <div className="flex flex-col items-center justify-center text-center">
+                {aiRecommendations.anomaly_detected ? (
+                  <Frown className="w-16 h-16 text-[#ef4d31ff] mb-4" />
+                ) : (
+                  <Smile className="w-16 h-16 text-[#4CBB17] mb-4" />
+                )}
+                <p className="text-sm text-[#000000] poppins mb-4">
+                  <strong>{aiRecommendations.reason}</strong>
+                </p>
+                {aiRecommendations.anomaly_detected ? (
+                  <>
+                    <p className="text-sm text-[#000000] poppins mb-2">
+                      <strong>Recommendations</strong>
+                    </p>
+                    <ul className="text-sm text-gray-700 poppins">
+                      {(aiRecommendations.recommendations || []).map((rec, index) => (
+                        <li key={index}>{rec}</li>
+                      ))}
+                    </ul>
+                  </>
+                ) : (
+                  <>
+                    <p className="text-sm text-[#000000] poppins mb-2">
+                      <strong>Best Practices</strong>
+                    </p>
+                    <ul className="text-sm text-gray-700 poppins">
+                      {(aiRecommendations.best_practices || []).map((practice, index) => (
+                        <li key={index}>{practice}</li>
+                      ))}
+                    </ul>
+                  </>
+                )}
+              </div>
+            ) : (
+              <p className="text-sm text-gray-700 poppins">No recommendations available.</p>
+            )}
           </div>
-          ) : aiRecommendations ? (
-            <div className="text-sm text-gray-700 poppins">
-              <p><strong>Anomaly Detected:</strong> {aiRecommendations.anomaly_detected ? 'Yes' : 'No'}</p>
-              <p><strong>Reason:</strong> {aiRecommendations.reason}</p>
-              {aiRecommendations.anomaly_detected ? (
-                <>
-                  <p><strong>Recommendations:</strong></p>
-                  <ul>
-                    {(aiRecommendations.recommendations || []).map((rec, index) => (
-                      <li key={index}>{rec}</li>
-                    ))}
-                  </ul>
-                </>
-              ) : (
-                <>
-                  <p><strong>Best Practices:</strong></p>
-                  <ul>
-                    {(aiRecommendations.best_practices || []).map((practice, index) => (
-                      <li key={index}>{practice}</li>
-                    ))}
-                  </ul>
-                </>
-              )}
-            </div>
-          ) : (
-            <p className="text-sm text-gray-700 poppins">No recommendations available.</p>
-          )}
-        </div>
         </div>
       </div>
     </div>
