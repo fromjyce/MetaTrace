@@ -1,6 +1,40 @@
 import { Upload, FolderSearch, List, BrainCog } from "lucide-react";
+import { useState, useEffect } from 'react';
 
 const MetadataAndRecommendations = ({ metadata, onBackToUpload }) => {
+  const [aiRecommendations, setAiRecommendations] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (metadata) {
+      fetchRecommendations();
+    }
+  }, [metadata]);
+
+  const fetchRecommendations = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch('http://127.0.0.1:8000/recommend/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(metadata),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch recommendations');
+      }
+
+      const data = await response.json();
+      setAiRecommendations(data);
+    } catch (error) {
+      console.error('Error fetching recommendations:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-lg p-6 w-full">
       <div className="flex justify-between items-center mb-6">
@@ -47,10 +81,36 @@ const MetadataAndRecommendations = ({ metadata, onBackToUpload }) => {
             <h4 className="text-lg font-bold epilogue">AI Recommendations</h4>
           </div>
           <div className="overflow-y-auto max-h-80">
-            <p className="text-sm text-gray-700 poppins">
-              AI recommendations will be displayed here.
-            </p>
-          </div>
+          {loading ? (
+            <p className="text-sm text-gray-700 poppins">Loading recommendations...</p>
+          ) : aiRecommendations ? (
+            <div className="text-sm text-gray-700 poppins">
+              <p><strong>Anomaly Detected:</strong> {aiRecommendations.anomaly_detected ? 'Yes' : 'No'}</p>
+              <p><strong>Reason:</strong> {aiRecommendations.reason}</p>
+              {aiRecommendations.anomaly_detected ? (
+                <>
+                  <p><strong>Recommendations:</strong></p>
+                  <ul>
+                    {(aiRecommendations.recommendations || []).map((rec, index) => (
+                      <li key={index}>{rec}</li>
+                    ))}
+                  </ul>
+                </>
+              ) : (
+                <>
+                  <p><strong>Best Practices:</strong></p>
+                  <ul>
+                    {(aiRecommendations.best_practices || []).map((practice, index) => (
+                      <li key={index}>{practice}</li>
+                    ))}
+                  </ul>
+                </>
+              )}
+            </div>
+          ) : (
+            <p className="text-sm text-gray-700 poppins">No recommendations available.</p>
+          )}
+        </div>
         </div>
       </div>
     </div>
