@@ -17,16 +17,31 @@ const MetadataAndRecommendations = ({ metadata, onBackToUpload }) => {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-[#f7f7f7ff] p-4 rounded-lg">
-          <h4 className="text-lg font-semibold mb-4 epilogue">Metadata</h4>
-          <pre className="text-sm text-gray-700 poppins whitespace-pre-wrap break-words">
-            {JSON.stringify(metadata, null, 2)}
-          </pre>
+          <h4 className="text-lg font-bold mb-4 epilogue">Meta<span className="text-[#ef4d31ff]">data</span></h4>
+          <div className="overflow-y-auto max-h-96">
+            <ul className="list-none text-sm poppins">
+              {metadata ? (
+                Object.entries(metadata).map(([key, value]) => (
+                  <li className="mb-2 flex items-center" key={key}>
+                    <span className="font-medium capitalize mr-2">{key}:</span>
+                    <span className="whitespace-pre-wrap break-words">
+                      {typeof value === "object" ? JSON.stringify(value, null, 2) : value}
+                    </span>
+                  </li>
+                ))
+              ) : (
+                <li className="text-gray-500 poppins">No metadata available</li>
+              )}
+            </ul>
+          </div>
         </div>
         <div className="bg-[#f7f7f7ff] p-4 rounded-lg">
-          <h4 className="text-lg font-semibold mb-4 epilogue">AI Recommendations</h4>
-          <p className="text-sm text-gray-700 poppins">
-            AI recommendations will be displayed here.
-          </p>
+          <h4 className="text-lg font-bold mb-4 epilogue">AI <span className="text-[#ef4d31ff]">Recommendations</span></h4>
+          <div className="overflow-y-auto max-h-96">
+            <p className="text-sm text-gray-700 poppins">
+              AI recommendations will be displayed here.
+            </p>
+          </div>
         </div>
       </div>
     </div>
