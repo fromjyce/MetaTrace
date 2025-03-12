@@ -77,10 +77,8 @@ const Upload = () => {
       }
   
       const userData = await response.json();
-      console.log("Fetched User Email:", userData.email); // Debugging
       setUserEmail(userData.email);
     } catch (error) {
-      console.error('Error fetching user email:', error);
       router.push('/login');
     }
   };
@@ -94,13 +92,8 @@ const Upload = () => {
       const response = await fetch(`/api/upload?email=${encodeURIComponent(userEmail)}`);
       const data = await response.json();
       
-      console.log("Fetched Files:", data); // Debugging
-      
       if (response.ok) {
-        // Sort files by createdAt in descending order (newest first)
         const sortedFiles = data.files.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        
-        // Get the top 5 most recent files
         const top5Files = sortedFiles.slice(0, 5);
         
         setRecentUploads(top5Files || []);
