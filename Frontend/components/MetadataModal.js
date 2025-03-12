@@ -50,31 +50,33 @@ const MetadataModal = ({ isOpen, fileMetadata, onClose, onDelete }) => {
           Metadata of <span className="text-[#f74b25ff]">{fileMetadata?.filename || 'N/A'}</span>
         </h3>
         <div className="overflow-y-auto max-h-96">
-          <ul className="list-none text-sm poppins">
-            {fileMetadata ? (
-              <>
-                <li className="mb-2">
-                  <span className="font-medium capitalize">Name:</span> {fileMetadata.filename}
-                </li>
-                <li className="mb-2">
-                  <span className="font-medium capitalize">Upload Date:</span> {new Date(fileMetadata.uploadDate).toLocaleDateString()}
-                </li>
-                {fileMetadata.metadata ? (
-                  Object.entries(fileMetadata.metadata).map(([key, value]) => (
-                    <li className="mb-2" key={key}>
-                      <span className="font-medium capitalize">{key}:</span>{" "}
-                      <pre className="whitespace-pre-wrap break-words">{typeof value === "object" ? JSON.stringify(value, null, 2) : value}</pre>
-                    </li>
-                  ))
-                ) : (
-                  <li className="mb-2 text-gray-500">No metadata available</li>
-                )}
-              </>
-            ) : (
-              <li className="text-gray-500">No file selected</li>
-            )}
-          </ul>
-        </div>
+        <ul className="list-none text-sm poppins">
+          {fileMetadata ? (
+            <>
+              <li className="mb-2">
+                <span className="font-medium capitalize">Name:</span> {fileMetadata.filename}
+              </li>
+              <li className="mb-2">
+                <span className="font-medium capitalize">Upload Date:</span> {new Date(fileMetadata.uploadDate).toLocaleDateString()}
+              </li>
+              {fileMetadata.metadata ? (
+                Object.entries(fileMetadata.metadata).map(([key, value]) => (
+                  <li className="mb-2 flex items-center" key={key}>
+                    <span className="font-medium capitalize mr-2">{key}:</span>
+                    <span className="whitespace-pre-wrap break-words">
+                      {typeof value === "object" ? JSON.stringify(value, null, 2) : value}
+                    </span>
+                  </li>
+                ))
+              ) : (
+                <li className="mb-2 text-gray-500 poppins">No metadata available</li>
+              )}
+            </>
+          ) : (
+            <li className="text-gray-500 poppins">No file selected</li>
+          )}
+        </ul>
+      </div>
         <div className="flex justify-end space-x-4 mt-4">
           <button
             className="p-2 bg-[#4CBB17] text-white rounded hover:bg-[#2E8B57]"
