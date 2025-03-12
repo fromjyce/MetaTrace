@@ -1,5 +1,6 @@
 import { Info, Trash2, Download, ArrowRight, FileImage, FileText, FileVideo, FileMusic, FileArchive, File } from 'lucide-react';
 import Link from 'next/link';
+import RecLoader from './RecLoader';
 
 const getFileIcon = (fileType) => {
     if (fileType.startsWith('image')) {
@@ -31,7 +32,7 @@ const getFileIcon = (fileType) => {
   };
 
 
-const RecentUploads = ({ uploads, onMetadataClick, onDelete}) => {
+const RecentUploads = ({ uploads, onMetadataClick, onDelete, loading}) => {
   const handleDelete = async (upload) => {
     if (!onDelete) {
       console.error("onDelete function is not defined.");
@@ -46,7 +47,7 @@ const RecentUploads = ({ uploads, onMetadataClick, onDelete}) => {
         });
   
         if (response.ok) {
-          onDelete(upload); // Call onDelete to update UI
+          onDelete(upload);
         } else {
           console.error("Failed to delete the file");
         }
@@ -55,6 +56,8 @@ const RecentUploads = ({ uploads, onMetadataClick, onDelete}) => {
       }
     }
   };
+
+  const noFiles = uploads.length === 0;
   
   return (
     <div className="mt-8">
@@ -69,8 +72,17 @@ const RecentUploads = ({ uploads, onMetadataClick, onDelete}) => {
                 </button>
               </Link>
     </h3>
+    {loading ? ( <div className="flex justify-center align-center">
+              <RecLoader /> 
+            </div>) : (
+          <> 
       <div className="space-y-4 w-full">
-        {uploads.map((upload, index) => (
+        {noFiles ? (
+          <div className="flex items-center justify-center h-64">
+            <p className="text-gray-500 text-lg poppins">No files found. Upload a file to get started!</p>
+          </div>
+        ) : (
+        uploads.map((upload, index) => (
           <div
             key={index}
             className="flex items-center justify-between p-4 bg-[#eceaea] shadow-lg rounded w-full"
@@ -108,8 +120,10 @@ const RecentUploads = ({ uploads, onMetadataClick, onDelete}) => {
               </button>
             </div>
           </div>
-        ))}
+        )))}
       </div>
+      </>
+      )}
     </div>
   );
 };
