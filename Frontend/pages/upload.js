@@ -6,6 +6,7 @@ import Footer from '@/components/Footer';
 import RecentUploads from '@/components/RecentUploads';
 import MetadataModal from '@/components/MetadataModal';
 import { useRouter } from 'next/router';
+import MetadataAndRecommendations from '@/components/MetadataRecommendations';
 
 const Upload = () => {
   const router = useRouter();
@@ -17,6 +18,8 @@ const Upload = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedFileMetadata, setSelectedFileMetadata] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [showMetadata, setShowMetadata] = useState(false);
+  const [recentUploadMetadata, setRecentUploadMetadata] = useState(null);
 
   const allowedFileTypes = [
     // Images
@@ -129,8 +132,14 @@ const Upload = () => {
         });
   
         const data = await response.json();
+  
         if (!response.ok) throw new Error(data.message || 'Upload failed');
-        fetchUploadedFiles(); 
+        setSelectedFileMetadata({
+          ...data.metadata,
+          filename: uploadedFile.name,
+        });
+        setShowMetadata(true);
+        fetchUploadedFiles();
         setFile(uploadedFile);
       } catch (error) {
         console.error("Error uploading file:", error);
@@ -139,7 +148,7 @@ const Upload = () => {
         setUploading(false);
       }
     }
-  };  
+  };
 
   const handleFileDrop = (e) => {
     e.preventDefault();
@@ -155,13 +164,12 @@ const Upload = () => {
   };
 
   const handleMetadataClick = (upload) => {
-    setSelectedFileMetadata(upload);
+    setRecentUploadMetadata(upload);
     setIsModalOpen(true);
   };
 
   const handleModalClose = () => {
     setIsModalOpen(false);
-    setSelectedFileMetadata(null);
   };
 
   const handleDelete = (deletedUpload) => {
@@ -188,61 +196,71 @@ const Upload = () => {
   };
 
   return (
-    <>
-      <Head>
-        <title>Upload your File | MetaTrace</title>
-      </Head>
-      <div className="min-h-screen bg-[#f7f7f7ff]">
-        <Navbar />
-        <div className="px-9 flex flex-col py-8 justify-center">
-          <h2 className="text-3xl font-black mb-2 epilogue text-center">
-            Upload Your <span className="text-[#f74b25ff]">File</span>
-          </h2>
-          <p className="text-[#5e5e5eff] poppins mb-4 text-lg text-center">
-            Securely upload and manage your files in one place.
-          </p>
-          <div
-            onClick={() => document.getElementById('file-upload').click()}
-            onDragOver={(e) => {
-              e.preventDefault();
-              setFileEnter(true);
-            }}
-            onDragLeave={() => setFileEnter(false)}
-            onDrop={handleFileDrop}
-            className={`${
-              fileEnter
-                ? 'border-[#1b1b1cff] bg-[#fbb3a3]'
-                : 'border-[#1b1b1cff] bg-[#fbb3a3]'
-            } border-dashed border-2 rounded-lg p-8 w-full flex flex-col items-center justify-center cursor-pointer transition-all`}
-          >
-            <CloudUpload className="w-16 h-16 text-[#1c1c1cff] mb-4" />
-            <p className="text-[#1c1c1cff] font-semibold poppins">
-              Drag & drop your files here or click to upload
-            </p>
-            <input
-              type="file"
-              onChange={handleFileChange}
-              className="hidden"
-              id="file-upload"
+      <>
+        <Head>
+          <title>Upload your File | MetaTrace</title>
+        </Head>
+        <div className="min-h-screen bg-[#f7f7f7ff]">
+          <Navbar />
+          <div className="px-9 flex flex-col py-8 justify-center">
+            {showMetadata ? (
+              <MetadataAndRecommendations
+              metadata={selectedFileMetadata}
+              onBackToUpload={() => setShowMetadata(false)}
+            />
+            ) : (
+              <div className="upload-container">
+                <h2 className="text-3xl font-black mb-2 epilogue text-center">
+                  Upload Your <span className="text-[#f74b25ff]">File</span>
+                </h2>
+                <p className="text-[#5e5e5eff] poppins mb-4 text-lg text-center">
+                  Securely upload and manage your files in one place.
+                </p>
+                <div
+                  onClick={() => document.getElementById('file-upload').click()}
+                  onDragOver={(e) => {
+                    e.preventDefault();
+                    setFileEnter(true);
+                  }}
+                  onDragLeave={() => setFileEnter(false)}
+                  onDrop={handleFileDrop}
+                  className={`${
+                    fileEnter
+                      ? 'border-[#1b1b1cff] bg-[#fbb3a3]'
+                      : 'border-[#1b1b1cff] bg-[#fbb3a3]'
+                  } border-dashed border-2 rounded-lg p-8 w-full flex flex-col items-center justify-center cursor-pointer transition-all`}
+                >
+                  <CloudUpload className="w-16 h-16 text-[#1c1c1cff] mb-4" />
+                  <p className="text-[#1c1c1cff] font-semibold poppins">
+                    Drag & drop your files here or click to upload
+                  </p>
+                  <input
+                    type="file"
+                    onChange={handleFileChange}
+                    className="hidden"
+                    id="file-upload"
+                  />
+                </div>
+              </div>
+            )}
+    
+            <RecentUploads
+              uploads={recentUploads}
+              onMetadataClick={handleMetadataClick}
+              onDelete={handleDelete}
+              loading={loading}
+            />
+            <MetadataModal
+              isOpen={isModalOpen}
+              fileMetadata={recentUploadMetadata}
+              onClose={handleModalClose}
+              onDelete={handleModDelete}
             />
           </div>
-          <RecentUploads
-            uploads={recentUploads}
-            onMetadataClick={handleMetadataClick}
-            onDelete={handleDelete}
-            loading={loading}
-          />
-          <MetadataModal
-            isOpen={isModalOpen}
-            fileMetadata={selectedFileMetadata}
-            onClose={handleModalClose}
-            onDelete={handleModDelete}
-          />
         </div>
-      </div>
-      <Footer />
-    </>
-  );
+        <Footer />
+      </>
+    );
 };
 
 export default Upload;
