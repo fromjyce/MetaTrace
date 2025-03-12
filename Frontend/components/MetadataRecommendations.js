@@ -1,5 +1,6 @@
 import { Upload, FolderSearch, List, BrainCog } from "lucide-react";
 import { useState, useEffect } from 'react';
+import AILoader from "./AILoader";
 
 const MetadataAndRecommendations = ({ metadata, onBackToUpload }) => {
   const [aiRecommendations, setAiRecommendations] = useState(null);
@@ -82,7 +83,9 @@ const MetadataAndRecommendations = ({ metadata, onBackToUpload }) => {
           </div>
           <div className="overflow-y-auto max-h-80">
           {loading ? (
-            <p className="text-sm text-gray-700 poppins">Loading recommendations...</p>
+            <div className="flex items-center justify-center h-full">
+            <AILoader />
+          </div>
           ) : aiRecommendations ? (
             <div className="text-sm text-gray-700 poppins">
               <p><strong>Anomaly Detected:</strong> {aiRecommendations.anomaly_detected ? 'Yes' : 'No'}</p>
