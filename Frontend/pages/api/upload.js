@@ -3,7 +3,7 @@ import { v2 as cloudinary } from "cloudinary";
 import { MongoClient } from "mongodb";
 import fs from "fs";
 import fetch from "node-fetch";
-import FormData from "form-data"; // Import the form-data library
+import FormData from "form-data";
 
 export const config = { api: { bodyParser: false } };
 
@@ -59,13 +59,13 @@ export default async function handler(req, res) {
           type: file.mimetype,
           size: file.size,
           uploadDate: new Date(),
-          metadata: metadataWithoutMessage,
+          metadata: metadataWithoutMessage.metadata,
         });
 
         await client.close();
         fs.unlinkSync(file.filepath);
 
-        res.status(200).json({ message: "✅ File uploaded successfully!", url: uploadResult.secure_url });
+        res.status(200).json({  metadata: fastApiData.metadata });
       });
     } catch (error) {
       console.error("❌ Server Error:", error);
