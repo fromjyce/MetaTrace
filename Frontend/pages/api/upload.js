@@ -40,7 +40,7 @@ export default async function handler(req, res) {
         fastApiFormData.append("file", fs.createReadStream(file.filepath), file.originalFilename); // Append file as a stream
         fastApiFormData.append("email", email);
 
-        const fastApiResponse = await fetch("http://127.0.0.1:8000/upload/", {
+        const fastApiResponse = await fetch("https://metatrace.onrender.com/upload/", {
           method: "POST",
           body: fastApiFormData,
           headers: fastApiFormData.getHeaders(),
