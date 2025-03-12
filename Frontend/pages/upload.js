@@ -16,6 +16,7 @@ const Upload = () => {
   const [userEmail, setUserEmail] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedFileMetadata, setSelectedFileMetadata] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const allowedFileTypes = [
     // Images
@@ -88,6 +89,7 @@ const Upload = () => {
 
   const fetchUploadedFiles = async () => {
     try {
+      setLoading(true);
       const response = await fetch(`/api/upload?email=${encodeURIComponent(userEmail)}`);
       const data = await response.json();
       
@@ -101,6 +103,8 @@ const Upload = () => {
       }
     } catch (error) {
       console.error("❌ Error fetching files:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -226,6 +230,7 @@ const Upload = () => {
             uploads={recentUploads}
             onMetadataClick={handleMetadataClick}
             onDelete={handleDelete}
+            loading={loading}
           />
           <MetadataModal
             isOpen={isModalOpen}
