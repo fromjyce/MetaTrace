@@ -13,7 +13,7 @@ const Upload = () => {
   const [fileEnter, setFileEnter] = useState(false);
   const [recentUploads, setRecentUploads] = useState([]);
   const [uploading, setUploading] = useState(false);
-  const [userEmail, setUserEmail] = useState(null); // Initialize as null
+  const [userEmail, setUserEmail] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedFileMetadata, setSelectedFileMetadata] = useState(null);
 
@@ -52,7 +52,6 @@ const Upload = () => {
 
   useEffect(() => {
     if (userEmail) {
-      console.log("Fetching Uploaded Files for Email:", userEmail); // Debugging
       fetchUploadedFiles();
     }
   }, [userEmail]);
