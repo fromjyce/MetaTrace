@@ -97,7 +97,6 @@ export default function FileList({ files, onDelete, onMetadataClick, onAllDelete
     router.push('/upload');
   };
 
-  // Check if there are no files
   const noFiles = files.length === 0;
 
   return (
