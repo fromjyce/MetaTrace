@@ -1,12 +1,15 @@
-import { Upload } from "lucide-react";
+import { Upload, FolderSearch, List, BrainCog } from "lucide-react";
 
 const MetadataAndRecommendations = ({ metadata, onBackToUpload }) => {
   return (
     <div className="bg-white rounded-lg shadow-lg p-6 w-full">
       <div className="flex justify-between items-center mb-6">
-        <h3 className="text-2xl font-bold text-[#1b1b1cff] epilogue">
-          File Analysis for <span className="text-[#ef4d31ff]">{metadata?.filename || "File"}</span>
-        </h3>
+        <div className="flex items-center">
+          <FolderSearch className="w-6 h-6 mr-2 text-[#ef4d31ff] text-2xl" />
+          <h3 className="text-2xl font-bold text-[#1b1b1cff] epilogue">
+            File Analysis for <span className="text-[#ef4d31ff]">{metadata?.filename || "File"}</span>
+          </h3>
+        </div>
         <button
           onClick={onBackToUpload}
           className="p-3 rounded-lg hover:bg-[#D22B2B] bg-[#ef4d31ff] transition-colors flex items-center justify-center font-semibold epilogue"
@@ -17,7 +20,10 @@ const MetadataAndRecommendations = ({ metadata, onBackToUpload }) => {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-[#f7f7f7ff] p-4 rounded-lg">
-          <h4 className="text-lg font-bold mb-4 epilogue">Meta<span className="text-[#ef4d31ff]">data</span></h4>
+          <div className="flex items-center mb-4">
+            <List className="w-5 h-5 mr-2 text-[#ef4d31ff]" />
+            <h4 className="text-lg font-bold epilogue">Metadata</h4>
+          </div>
           <div className="overflow-y-auto max-h-96">
             <ul className="list-none text-sm poppins">
               {metadata ? (
@@ -36,7 +42,10 @@ const MetadataAndRecommendations = ({ metadata, onBackToUpload }) => {
           </div>
         </div>
         <div className="bg-[#f7f7f7ff] p-4 rounded-lg">
-          <h4 className="text-lg font-bold mb-4 epilogue">AI <span className="text-[#ef4d31ff]">Recommendations</span></h4>
+          <div className="flex items-center mb-4">
+            <BrainCog className="w-5 h-5 mr-2 text-[#ef4d31ff]" />
+            <h4 className="text-lg font-bold epilogue">AI Recommendations</h4>
+          </div>
           <div className="overflow-y-auto max-h-96">
             <p className="text-sm text-gray-700 poppins">
               AI recommendations will be displayed here.
