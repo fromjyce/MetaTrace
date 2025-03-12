@@ -6,6 +6,7 @@ import subprocess
 import json
 from fastapi import HTTPException
 from groq import Groq
+from pathlib import Path
 
 app = FastAPI()
 
@@ -40,11 +41,12 @@ def extract_metadata(file_path: str):
 @app.post("/upload/")
 async def upload_file(file: UploadFile = File(...), email: str = Form(...)):
     try:
-        file_path = f"./uploads/{file.filename}"
+        upload_dir = Path("./uploads")
+        upload_dir.mkdir(parents=True, exist_ok=True)
+        file_path = upload_dir / file.filename
         with open(file_path, "wb") as buffer:
             buffer.write(await file.read())
         metadata = extract_metadata(file_path)
-        
         os.remove(file_path)
 
         return JSONResponse(
