@@ -72,7 +72,7 @@ const RecentUploads = ({ uploads, onMetadataClick, onDelete, loading}) => {
                 </button>
               </Link>
     </h3>
-    {loading ? ( <div className="flex justify-center align-center">
+    {loading ? ( <div className="flex justify-center align-center items-center h-full">
               <RecLoader /> 
             </div>) : (
           <> 
