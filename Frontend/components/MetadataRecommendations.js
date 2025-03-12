@@ -1,6 +1,4 @@
 const MetadataAndRecommendations = ({ metadata, onBackToUpload }) => {
-  console.log("Metadata in Container:", metadata); // Debugging: Log the metadata
-
   return (
     <div className="bg-white rounded-lg shadow-lg p-6 w-full">
       <div className="flex justify-between items-center mb-6">
