@@ -1,0 +1,126 @@
+\documentclass{beamer}
+
+\usetheme{Madrid}
+\usecolortheme{beaver}
+
+\title{MetaTrace: Web-Based Metadata Forensics Tool}
+\subtitle{Final Presentation}
+\author{WE Group 12}
+\date{\today}
+
+\begin{document}
+
+% Title Slide
+\begin{frame}
+    \titlepage
+\end{frame}
+
+% Slide 2: Problem Statement
+\begin{frame}{Problem Statement}
+    \begin{itemize}
+        \item \textbf{Importance of Metadata:}
+        \begin{itemize}
+            \item Critical for verifying file authenticity, ensuring data integrity, and supporting investigations.
+            \item Offers insights into file origins, modifications, and hidden data.
+        \end{itemize}
+        \item \textbf{Challenges with Existing Tools:}
+        \begin{itemize}
+            \item Advanced tools like ExifTool require deep technical expertise.
+            \item Lack integrated visualization and intuitive, predictive analytics.
+            \item Limited accessibility for non-technical users, hindering broader adoption.
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+% Slide 3: Proposed Solution
+\begin{frame}{Proposed Solution}
+    \textbf{MetaTrace: A Comprehensive Metadata Analysis Platform}
+    \begin{itemize}
+        \item \textbf{User-Friendly Interface:} A web-based tool that simplifies metadata extraction, visualization, and analysis.
+        \item \textbf{Broad File Format Support:} Extracts metadata from images, documents, multimedia files, and more.
+        \item \textbf{Advanced Analytics:}Predictive insights and anomaly detection.
+        \item \textbf{Empowering Users:} Makes metadata accessible for both technical experts and non-technical users to verify authenticity, trace leaks, and investigate cybercrimes.
+    \end{itemize}
+\end{frame}
+
+
+% Slide 4: Key Features
+\begin{frame}{Key Features}
+    \begin{enumerate}
+        \item \textbf{File Upload:} Supports images, PDFs, and documents.
+        \item \textbf{Metadata Extraction:} Uses ExifTool for detailed metadata analysis.
+        
+        \item \textbf{Predictive Insights:} Detect anomalies in metadata.
+        
+    \end{enumerate}
+\end{frame}
+
+
+
+% Slide 6: Feasibility & Technology
+\begin{frame}{Tech Stack}
+    \textbf{Technology Stack:}
+    \begin{itemize}
+        \item \textbf{Frontend:} Next.js, Tailwind CSS
+        \item \textbf{Backend:} Python with FastAPI and ExifTool integration.
+        \item \textbf{Database:} MongoDB
+        \item \textbf{ML:} Isolation Forest \& Groq LLM
+    \end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Timeline}
+      
+           
+        \begin{itemize}
+            \item Week 1, Dec 2024 – Research \& approval 
+            \item Week 2, Dec 2024 – Project planning \& task allocation
+            \item Week 3, Dec 2024 – Secondary approval 
+            \item Week 4, Dec 2024 – UX design \& ExifTool documentation
+            \item Weeks 1–3, Jan 2025 – Frontend \& backend development 
+            \item Week 4, Jan 2025 – Metadata extraction; integration failed
+            
+            \item Week 2, Feb, 2025 - JWT Authentication \& API Handling
+            \item Week 3, Feb, 2025 - Integration 
+            \item Week 4, Feb, 2025 - ML Optimization
+            \item Week 1, Mar, 2025 - ML Optimization \& Integration
+        \end{itemize}
+    
+\end{frame}
+
+\begin{frame}{DEMO}
+\begin{center}
+        \textbf{Demo!}\\     
+        \url{https://meta-trace.vercel.app/}\\ 
+    \end{center}
+    \vspace{1cm}
+    
+\end{frame}
+
+\begin{frame}{Challenges}
+    \begin{itemize}
+        \item \textbf{Challenges:}
+        \begin{itemize}
+            \item Metadata variations across file formats
+            \item Ensuring proper API Handling
+            \item Finding labelled dataset for anomaly detection
+            
+        \end{itemize}
+                
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Thank you}
+\begin{center}
+        \textbf{Thank you for your time and consideration!}\\        
+    \end{center}
+    \vspace{1cm}
+    \begin{flushright}
+        \textit{WE Group 12}
+    \end{flushright}
+\end{frame}
+
+
+\end{document}
+
